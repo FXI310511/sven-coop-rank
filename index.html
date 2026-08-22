@@ -80,7 +80,7 @@
             </table>
         </div>
 
-        <!-- Ranking por mapa (Ahora también calcula su propia eficiencia y rango por mapa individualmente) -->
+        <!-- Ranking por mapa -->
         <div id="mapas" class="section">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
                 <h2 style="margin: 0; color: #4caf50;">Selecciona un Mapa</h2>
@@ -159,7 +159,7 @@
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
                 <div class="faq-q">¿Cómo se calculan los rangos y la eficiencia?</div>
-                <div class="faq-a">Se evalúa el rendimiento (puntos, tiempo y muertes) generando un porcentaje de 0 a 100 asignado estrictamente a tu escala:<br>
+                <div class="faq-a">Se evalúa el rendimiento general premiando el score alto y penalizando las muertes, generando un porcentaje de 0 a 100:<br>
                     • <strong>100</strong> → SS<br>
                     • <strong>95–99</strong> → S<br>
                     • <strong>90–94</strong> → A<br>
@@ -199,29 +199,34 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Función auxiliar para calcular porcentaje y asignar tu rango exacto
+    // NUEVA FÓRMULA CORREGIDA: Basada principalmente en el Score obtenido y penalizando muertes
     function calcularRangoYPorcentaje(score, tiempoSec, muertes, esGlobal = false) {
-        const mins = tiempoSec / 60 || 1;
-        // Fórmula balanceada para distribuir correctamente los puntajes
-        let factorPeso = esGlobal ? 12 : 10;
-        let rawEff = (score / mins) - (muertes * 3);
-        let porcentaje = Math.min(Math.max(Math.round((rawEff / factorPeso) * 40 + 65), 30), 100);
+        // Base de cálculo proporcional al score (a mayor score, mayor eficiencia asegurada)
+        let maxScoreEsperado = esGlobal ? 1200 : 450; 
+        let scorePonderado = Math.min(score, maxScoreEsperado);
+        
+        // Penalización por muertes (-3% por cada muerte)
+        let penalizacionMuertes = muertes * 3;
+        
+        // Porcentaje base derivado del rendimiento de puntos
+        let porcentaje = Math.round((scorePonderado / maxScoreEsperado) * 35 + 65) - penalizacionMuertes;
+        porcentaje = Math.min(Math.max(porcentaje, 40), 100); // Límites entre 40% y 100%
 
-        // Ajuste manual de tope para el mejor rendimiento global si es necesario
-        if (esGlobal && score > 1000) porcentaje = Math.max(porcentaje, 91);
+        // Si es el líder absoluto con gran ventaja, asegurar rango alto
+        if (score > 1000 && esGlobal) porcentaje = Math.max(porcentaje, 95);
 
         let rango = 'D';
         let colorRango = '#777777';
 
-        if (porcentaje === 100) {
+        if (porcentaje >= 98) {
             rango = 'SS'; colorRango = '#ff00ff';
-        } else if (porcentaje >= 95) {
-            rango = 'S'; colorRango = '#ffeb3b';
         } else if (porcentaje >= 90) {
-            rango = 'A'; colorRango = '#4caf50';
+            rango = 'S'; colorRango = '#ffeb3b';
         } else if (porcentaje >= 80) {
-            rango = 'B'; colorRango = '#00ccff';
+            rango = 'A'; colorRango = '#4caf50';
         } else if (porcentaje >= 70) {
+            rango = 'B'; colorRango = '#00ccff';
+        } else if (porcentaje >= 60) {
             rango = 'C'; colorRango = '#ff9800';
         } else {
             rango = 'D'; colorRango = '#ff6600';
@@ -234,7 +239,6 @@
     }
 
     function calcularRankings() {
-        // 1. Procesar Ranking Global y Modos (Acumulativo)
         const procesarAcumulado = (filtroModo = null) => {
             const stats = {};
             const mapSubSections = document.querySelectorAll('#mapas .sub-section');
@@ -301,12 +305,10 @@
         renderizarTabla('#tabla-survival tbody', procesarAcumulado('survival'));
         renderizarTabla('#tabla-classic tbody', procesarAcumulado('classic'));
 
-        // 2. Procesar y calcular automáticamente las tablas individuales de cada mapa
         const mapSubSections = document.querySelectorAll('#mapas .sub-section');
         mapSubSections.forEach(mapSec => {
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
             
-            // Extraer y calcular por mapa
             const mapaData = rows.map(row => {
                 const cols = row.querySelectorAll('td');
                 const jugador = cols[1].textContent.trim();
@@ -328,7 +330,6 @@
                 };
             });
 
-            // Ordenar filas del mapa por score de mayor a menor
             mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
 
             const tbody = mapSec.querySelector('.map-table tbody');
