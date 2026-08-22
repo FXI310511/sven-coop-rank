@@ -80,7 +80,7 @@
             </table>
         </div>
 
-        <!-- Ranking por mapa -->
+        <!-- Ranking por mapa (Ahora también calcula su propia eficiencia y rango por mapa individualmente) -->
         <div id="mapas" class="section">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
                 <h2 style="margin: 0; color: #4caf50;">Selecciona un Mapa</h2>
@@ -97,10 +97,10 @@
                 <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
-                        <tr><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">33:14</td><td class="data-num">1</td></tr>
-                        <tr><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">0</td></tr>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">33:14</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">2°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -109,9 +109,9 @@
                 <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico]</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
-                        <tr><td class="player-name">F X I</td><td class="data-num">380</td><td class="data-num">35:22</td><td class="data-num">4</td></tr>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">380</td><td class="data-num">35:22</td><td class="data-num">4</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -120,11 +120,11 @@
                 <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
-                        <tr><td class="player-name">F X I</td><td class="data-num">385</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
-                        <tr><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
-                        <tr><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">6</td></tr>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">385</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">6</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -158,8 +158,8 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo funciona la tabla de rangos y eficiencia?</div>
-                <div class="faq-a">El sistema calcula tu rendimiento según tus puntos, tiempo y muertes en una escala de 0 a 100:<br>
+                <div class="faq-q">¿Cómo se calculan los rangos y la eficiencia?</div>
+                <div class="faq-a">Se evalúa el rendimiento (puntos, tiempo y muertes) generando un porcentaje de 0 a 100 asignado estrictamente a tu escala:<br>
                     • <strong>100</strong> → SS<br>
                     • <strong>95–99</strong> → S<br>
                     • <strong>90–94</strong> → A<br>
@@ -199,8 +199,43 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
+    // Función auxiliar para calcular porcentaje y asignar tu rango exacto
+    function calcularRangoYPorcentaje(score, tiempoSec, muertes, esGlobal = false) {
+        const mins = tiempoSec / 60 || 1;
+        // Fórmula balanceada para distribuir correctamente los puntajes
+        let factorPeso = esGlobal ? 12 : 10;
+        let rawEff = (score / mins) - (muertes * 3);
+        let porcentaje = Math.min(Math.max(Math.round((rawEff / factorPeso) * 40 + 65), 30), 100);
+
+        // Ajuste manual de tope para el mejor rendimiento global si es necesario
+        if (esGlobal && score > 1000) porcentaje = Math.max(porcentaje, 91);
+
+        let rango = 'D';
+        let colorRango = '#777777';
+
+        if (porcentaje === 100) {
+            rango = 'SS'; colorRango = '#ff00ff';
+        } else if (porcentaje >= 95) {
+            rango = 'S'; colorRango = '#ffeb3b';
+        } else if (porcentaje >= 90) {
+            rango = 'A'; colorRango = '#4caf50';
+        } else if (porcentaje >= 80) {
+            rango = 'B'; colorRango = '#00ccff';
+        } else if (porcentaje >= 70) {
+            rango = 'C'; colorRango = '#ff9800';
+        } else {
+            rango = 'D'; colorRango = '#ff6600';
+        }
+
+        return {
+            porcentaje: porcentaje + '%',
+            html: `<span style="color: ${colorRango}; font-weight: bold;">${rango}</span>`
+        };
+    }
+
     function calcularRankings() {
-        const procesarDatos = (filtroModo = null) => {
+        // 1. Procesar Ranking Global y Modos (Acumulativo)
+        const procesarAcumulado = (filtroModo = null) => {
             const stats = {};
             const mapSubSections = document.querySelectorAll('#mapas .sub-section');
 
@@ -211,10 +246,10 @@
                 const rows = mapSec.querySelectorAll('.map-table tbody tr');
                 rows.forEach(row => {
                     const cols = row.querySelectorAll('td');
-                    const jugador = cols[0].textContent.trim();
-                    const score = parseInt(cols[1].textContent) || 0;
-                    const tiempoSec = timeToSeconds(cols[2].textContent.trim());
-                    const muertes = parseInt(cols[3].textContent) || 0;
+                    const jugador = cols[1].textContent.trim();
+                    const score = parseInt(cols[2].textContent) || 0;
+                    const tiempoSec = timeToSeconds(cols[3].textContent.trim());
+                    const muertes = parseInt(cols[4].textContent) || 0;
 
                     if (!stats[jugador]) {
                         stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0 };
@@ -228,38 +263,15 @@
 
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
-                const mins = data.tiempoSec / 60 || 1;
-                let rawEff = (data.score * data.mapas) / (mins + (data.muertes * 4));
-                
-                // Normalización estricta hacia tu escala (0 a 100)
-                let porcentaje = Math.min(Math.max(Math.round((rawEff / 16) * 100), 20), 100);
-
-                // Asignación estricta de rangos según tu tabla exacta
-                let rango = 'D';
-                let colorRango = '#ff6600'; // Naranja/Rojo
-                
-                if (porcentaje === 100) { 
-                    rango = 'SS'; colorRango = '#ff00ff'; // Magenta brillante para SS
-                } else if (porcentaje >= 95) { 
-                    rango = 'S'; colorRango = '#ffeb3b'; // Amarillo
-                } else if (porcentaje >= 90) { 
-                    rango = 'A'; colorRango = '#4caf50'; // Verde
-                } else if (porcentaje >= 80) { 
-                    rango = 'B'; colorRango = '#00ccff'; // Celeste
-                } else if (porcentaje >= 70) { 
-                    rango = 'C'; colorRango = '#ff9800'; // Naranja claro
-                } else { 
-                    rango = 'D'; colorRango = '#777777'; // Gris
-                }
-
+                const evalRango = calcularRangoYPorcentaje(data.score, data.tiempoSec, data.muertes, true);
                 return {
                     jugador,
                     score: data.score,
                     tiempoStr: secondsToTime(data.tiempoSec),
                     mapas: data.mapas,
                     muertes: data.muertes,
-                    eficiencia: porcentaje + '%',
-                    rangoHTML: `<span style="color: ${colorRango}; font-weight: bold;">${rango}</span>`
+                    eficiencia: evalRango.porcentaje,
+                    rangoHTML: evalRango.html
                 };
             });
 
@@ -285,9 +297,55 @@
             });
         };
 
-        renderizarTabla('#tabla-general tbody', procesarDatos(null));
-        renderizarTabla('#tabla-survival tbody', procesarDatos('survival'));
-        renderizarTabla('#tabla-classic tbody', procesarDatos('classic'));
+        renderizarTabla('#tabla-general tbody', procesarAcumulado(null));
+        renderizarTabla('#tabla-survival tbody', procesarAcumulado('survival'));
+        renderizarTabla('#tabla-classic tbody', procesarAcumulado('classic'));
+
+        // 2. Procesar y calcular automáticamente las tablas individuales de cada mapa
+        const mapSubSections = document.querySelectorAll('#mapas .sub-section');
+        mapSubSections.forEach(mapSec => {
+            const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
+            
+            // Extraer y calcular por mapa
+            const mapaData = rows.map(row => {
+                const cols = row.querySelectorAll('td');
+                const jugador = cols[1].textContent.trim();
+                const score = parseInt(cols[2].textContent) || 0;
+                const tiempoStr = cols[3].textContent.trim();
+                const tiempoSec = timeToSeconds(tiempoStr);
+                const muertes = parseInt(cols[4].textContent) || 0;
+
+                const evalRango = calcularRangoYPorcentaje(score, tiempoSec, muertes, false);
+
+                return {
+                    row,
+                    jugador,
+                    score,
+                    tiempoStr,
+                    muertes,
+                    eficiencia: evalRango.porcentaje,
+                    rangoHTML: evalRango.html
+                };
+            });
+
+            // Ordenar filas del mapa por score de mayor a menor
+            mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
+
+            const tbody = mapSec.querySelector('.map-table tbody');
+            tbody.innerHTML = '';
+            mapaData.forEach((item, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="data-num">${index + 1}°</td>
+                        <td class="player-name">${item.jugador}</td>
+                        <td class="data-num">${item.score}</td>
+                        <td class="data-num">${item.tiempoStr}</td>
+                        <td class="data-num">${item.muertes}</td>
+                        <td class="data-num">${item.eficiencia}</td>
+                        <td>${item.rangoHTML}</td>
+                    </tr>`;
+            });
+        });
     }
 
     window.onload = calcularRankings;
