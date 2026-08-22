@@ -72,16 +72,11 @@
         <!-- Ranking Global -->
         <div id="general" class="section active">
             <h2 style="color: #4caf50;">Clasificación General</h2>
-            <table>
+            <table id="tabla-general">
                 <thead>
-                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Tiempo Total</th><th>Mapas Completados</th><th>Muertes Totales</th></tr>
+                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Tiempo Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr>
                 </thead>
-                <tbody>
-                    <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">1209</td><td class="data-num">86:48</td><td class="data-num">3</td><td class="data-num">6</td></tr>
-                    <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">1</td></tr>
-                    <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">6</td></tr>
-                    <tr><td class="data-num">4°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">1</td><td class="data-num">0</td></tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
 
@@ -98,44 +93,38 @@
                 <button class="sub-btn survival-btn" onclick="switchSubMap('hplanet', this)">Hplanet</button>
             </div>
 
-            <div id="intruder" class="sub-section active">
+            <div id="intruder" class="sub-section active" data-mode="survival">
                 <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
-                <table>
-                    <thead>
-                        <tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr>
-                    </thead>
+                <table class="map-table">
+                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
                     <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">33:14</td><td class="data-num">1</td></tr>
-                        <tr><td class="data-num">2°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">0</td></tr>
+                        <tr><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">33:14</td><td class="data-num">1</td></tr>
+                        <tr><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">0</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <div id="grunts2" class="sub-section">
+            <div id="grunts2" class="sub-section" data-mode="classic">
                 <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico]</span></h3>
-                <table>
-                    <thead>
-                        <tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr>
-                    </thead>
+                <table class="map-table">
+                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
                     <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">380</td><td class="data-num">35:22</td><td class="data-num">4</td></tr>
+                        <tr><td class="player-name">F X I</td><td class="data-num">380</td><td class="data-num">35:22</td><td class="data-num">4</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <div id="hplanet" class="sub-section">
+            <div id="hplanet" class="sub-section" data-mode="survival">
                 <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
-                <table>
-                    <thead>
-                        <tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr>
-                    </thead>
+                <table class="map-table">
+                    <thead><tr><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th></tr></thead>
                     <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">385</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
-                        <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
-                        <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">6</td></tr>
+                        <tr><td class="player-name">F X I</td><td class="data-num">385</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
+                        <tr><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td></tr>
+                        <tr><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">6</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -150,24 +139,17 @@
 
             <div id="survival-mode" class="sub-section active">
                 <h3 style="color: #4caf50;">Ranking Survival</h3>
-                <table>
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas Completados</th><th>Muertes</th></tr></thead>
-                    <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">829</td><td class="data-num">51:26</td><td class="data-num">2</td><td class="data-num">2</td></tr>
-                        <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">1</td></tr>
-                        <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">6</td></tr>
-                        <tr><td class="data-num">4°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">1</td><td class="data-num">0</td></tr>
-                    </tbody>
+                <table id="tabla-survival">
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <tbody></tbody>
                 </table>
             </div>
 
             <div id="classic-mode" class="sub-section">
                 <h3 style="color: #4caf50;">Ranking Clásico</h3>
-                <table>
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas Completados</th><th>Muertes</th></tr></thead>
-                    <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">380</td><td class="data-num">35:22</td><td class="data-num">1</td><td class="data-num">4</td></tr>
-                    </tbody>
+                <table id="tabla-classic">
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -175,22 +157,17 @@
         <!-- FAQ / Ayuda -->
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
-            
-            <div class="faq-item"><div class="faq-q">¿Puedo farmear score repitiendo el mismo mapa?</div><div class="faq-a">No. El score solo se suma al completar un mapa por primera vez o al superar tu propio récord, si ya lo habías completado anteriormente.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo desconectarme y reconectarme para obtener puntos?</div><div class="faq-a">No. Al desconectarte, pierdes los puntos obtenidos en esa partida.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo revivir infinitamente a un compañero?</div><div class="faq-a">Sí. Es una mecánica permitida por el juego.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo completar el mapa con un amigo y repartir el score de alguna manera?</div><div class="faq-a">No. El score es individual y depende del desempeño de cada jugador.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo matar enemigos de una forma que genere puntos infinitamente?</div><div class="faq-a">Sí, siempre que el propio mapa permita hacerlo.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo manipular el tiempo?</div><div class="faq-a">No. Manipular el tiempo está totalmente prohibido y puede resultar en un veto del ranking.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo mandar resultados falsos al servidor?</div><div class="faq-a">No. Enviar resultados falsos está totalmente prohibido y puede resultar en un veto del ranking.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Qué pasa si dos jugadores terminan exactamente igual?</div><div class="faq-a">El criterio principal son los puntos. Si dos jugadores tienen el mismo score, se utilizarán las muertes y posteriormente el tiempo como criterios de desempate.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo jugar en cooperativo?</div><div class="faq-a">Sí. Puedes completar mapas junto a otros jugadores, pero el score de cada jugador se calcula individualmente según su desempeño.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo usar glitches o exploits del mapa?</div><div class="faq-a">No. Aprovechar bugs o exploits para obtener una ventaja injusta puede provocar la invalidación del resultado o un veto.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo usar scripts, macros o programas externos?</div><div class="faq-a">No. Cualquier herramienta externa que automatice acciones o proporcione una ventaja injusta está prohibida.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Qué cuenta como trampa?</div><div class="faq-a">Se considera trampa cualquier método externo o manipulación destinada a obtener una ventaja que no pueda conseguirse mediante las mecánicas normales del juego.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Qué ocurre si encuentro un bug en el sistema de puntuación?</div><div class="faq-a">Debes reportarlo. No está permitido aprovechar bugs para obtener score de manera injusta.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Qué pasa si alguien hace trampa?</div><div class="faq-a">El resultado será invalidado y el jugador podrá recibir un veto del ranking.</div></div>
-            <div class="faq-item"><div class="faq-q">¿Puedo reportar a otro jugador?</div><div class="faq-a">Sí. Si sospechas que un jugador está haciendo trampa o explotando el sistema, puedes reportarlo proporcionando pruebas suficientes para que el resultado pueda ser revisado.</div></div>
+            <div class="faq-item">
+                <div class="faq-q">¿Cómo funciona la tabla de rangos y eficiencia?</div>
+                <div class="faq-a">El sistema calcula tu rendimiento según tus puntos, tiempo y muertes en una escala de 0 a 100:<br>
+                    • <strong>100</strong> → SS<br>
+                    • <strong>95–99</strong> → S<br>
+                    • <strong>90–94</strong> → A<br>
+                    • <strong>80–89</strong> → B<br>
+                    • <strong>70–79</strong> → C<br>
+                    • <strong>0–69</strong> → D
+                </div>
+            </div>
         </div>
     </div>
 
@@ -206,10 +183,114 @@
         const parentSection = document.getElementById(mapId).closest('.section');
         parentSection.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
         parentSection.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-        
         document.getElementById(mapId).classList.add('active');
         element.classList.add('active');
     }
+
+    function timeToSeconds(tStr) {
+        if (!tStr || tStr === '-') return 0;
+        const parts = tStr.split(':');
+        return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    }
+
+    function secondsToTime(totalSecs) {
+        const mins = Math.floor(totalSecs / 60);
+        const secs = totalSecs % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function calcularRankings() {
+        const procesarDatos = (filtroModo = null) => {
+            const stats = {};
+            const mapSubSections = document.querySelectorAll('#mapas .sub-section');
+
+            mapSubSections.forEach(mapSec => {
+                const modoMapa = mapSec.getAttribute('data-mode');
+                if (filtroModo && modoMapa !== filtroModo) return;
+
+                const rows = mapSec.querySelectorAll('.map-table tbody tr');
+                rows.forEach(row => {
+                    const cols = row.querySelectorAll('td');
+                    const jugador = cols[0].textContent.trim();
+                    const score = parseInt(cols[1].textContent) || 0;
+                    const tiempoSec = timeToSeconds(cols[2].textContent.trim());
+                    const muertes = parseInt(cols[3].textContent) || 0;
+
+                    if (!stats[jugador]) {
+                        stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0 };
+                    }
+                    stats[jugador].score += score;
+                    stats[jugador].tiempoSec += tiempoSec;
+                    stats[jugador].mapas += 1;
+                    stats[jugador].muertes += muertes;
+                });
+            });
+
+            const lista = Object.keys(stats).map(jugador => {
+                const data = stats[jugador];
+                const mins = data.tiempoSec / 60 || 1;
+                let rawEff = (data.score * data.mapas) / (mins + (data.muertes * 4));
+                
+                // Normalización estricta hacia tu escala (0 a 100)
+                let porcentaje = Math.min(Math.max(Math.round((rawEff / 16) * 100), 20), 100);
+
+                // Asignación estricta de rangos según tu tabla exacta
+                let rango = 'D';
+                let colorRango = '#ff6600'; // Naranja/Rojo
+                
+                if (porcentaje === 100) { 
+                    rango = 'SS'; colorRango = '#ff00ff'; // Magenta brillante para SS
+                } else if (porcentaje >= 95) { 
+                    rango = 'S'; colorRango = '#ffeb3b'; // Amarillo
+                } else if (porcentaje >= 90) { 
+                    rango = 'A'; colorRango = '#4caf50'; // Verde
+                } else if (porcentaje >= 80) { 
+                    rango = 'B'; colorRango = '#00ccff'; // Celeste
+                } else if (porcentaje >= 70) { 
+                    rango = 'C'; colorRango = '#ff9800'; // Naranja claro
+                } else { 
+                    rango = 'D'; colorRango = '#777777'; // Gris
+                }
+
+                return {
+                    jugador,
+                    score: data.score,
+                    tiempoStr: secondsToTime(data.tiempoSec),
+                    mapas: data.mapas,
+                    muertes: data.muertes,
+                    eficiencia: porcentaje + '%',
+                    rangoHTML: `<span style="color: ${colorRango}; font-weight: bold;">${rango}</span>`
+                };
+            });
+
+            lista.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
+            return lista;
+        };
+
+        const renderizarTabla = (selector, data) => {
+            const tbody = document.querySelector(selector);
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="data-num">${index + 1}°</td>
+                        <td class="player-name">${item.jugador}</td>
+                        <td class="data-num">${item.score}</td>
+                        <td class="data-num">${item.tiempoStr}</td>
+                        <td class="data-num">${item.mapas}</td>
+                        <td class="data-num">${item.muertes}</td>
+                        <td class="data-num">${item.eficiencia}</td>
+                        <td>${item.rangoHTML}</td>
+                    </tr>`;
+            });
+        };
+
+        renderizarTabla('#tabla-general tbody', procesarDatos(null));
+        renderizarTabla('#tabla-survival tbody', procesarDatos('survival'));
+        renderizarTabla('#tabla-classic tbody', procesarDatos('classic'));
+    }
+
+    window.onload = calcularRankings;
 </script>
 </body>
 </html>
