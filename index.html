@@ -15,16 +15,17 @@
         }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding-bottom: 50px; }
         
+        .banner { width: 100%; max-height: 300px; object-fit: cover; border-bottom: 4px solid var(--border-color); }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; position: relative; }
         
         header { text-align: center; margin-bottom: 30px; position: relative; }
-        .faq-top-btn { position: absolute; top: 0; right: 0; background-color: #2e6633; color: #a8f0a8; border: 1px solid #4caf50; padding: 10px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .faq-top-btn { position: absolute; top: 0; right: 0; background-color: #2e6633; color: #a8f0a8; border: 1px solid #4caf50; padding: 10px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.3s; }
         .faq-top-btn:hover { background-color: #388e3c; color: white; }
         
         h1 { color: #4caf50; text-transform: uppercase; margin-top: 20px; }
         
         .nav-tabs, .sub-nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; align-items: center; }
-        .nav-tabs button, .sub-nav-tabs button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .nav-tabs button, .sub-nav-tabs button { background-color: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: 0.3s; }
         .nav-tabs button:hover, .sub-nav-tabs button:hover { background-color: #1b2e1b; border-color: #4caf50; }
         .nav-tabs button.active { background-color: #2e6633; border-color: #4caf50; color: white; }
 
@@ -45,12 +46,16 @@
         
         td.player-name, td.data-num { color: var(--yellow-data); font-weight: 500; }
 
+        .map-preview { width: 100%; max-height: 350px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; border: 2px solid var(--border-color); }
+        
         .faq-item { margin-bottom: 25px; border-bottom: 1px solid #223822; padding-bottom: 15px; }
         .faq-q { font-size: 1.3rem; color: #4caf50; margin-bottom: 5px; }
         .faq-a { font-size: 0.95rem; color: #ffffff; line-height: 1.5; }
     </style>
 </head>
 <body>
+
+    <img src="https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg" alt="Sven Co-op Logo" class="banner">
 
     <div class="container">
         <header>
@@ -80,7 +85,11 @@
 
         <!-- Ranking por mapa -->
         <div id="mapas" class="section">
-            <h2 style="margin: 0 0 15px 0; color: #4caf50;">Selecciona un Mapa</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
+                <h2 style="margin: 0; color: #4caf50;">Selecciona un Mapa</h2>
+                <span style="font-size: 0.85rem; color: #a8f0a8;">Modos: <span style="color: #00ccff; font-weight: bold;">Survival (Celeste)</span> | <span style="color: #ff6600; font-weight: bold;">Clásico (Naranja)</span></span>
+            </div>
+
             <div class="sub-nav-tabs">
                 <button class="sub-btn survival-btn active" onclick="switchSubMap('intruder', this)">Intruder</button>
                 <button class="sub-btn classic-btn" onclick="switchSubMap('grunts2', this)">Grunts2</button>
@@ -88,6 +97,7 @@
             </div>
 
             <div id="intruder" class="sub-section active">
+                <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
                 <table>
                     <thead>
@@ -101,6 +111,7 @@
             </div>
 
             <div id="grunts2" class="sub-section">
+                <img src="https://media.discordapp.net/attachments/1521773363029213194/1539863934230855753/image.png?ex=6a87dd8b&is=6a868c0b&hm=6389a88726ce507679b29ae1925d4951c164ca001b84469e772d44872fae2024&=&format=webp&quality=lossless&width=640&height=363" alt="Mapa Grunts2" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico]</span></h3>
                 <table>
                     <thead>
@@ -113,6 +124,7 @@
             </div>
 
             <div id="hplanet" class="sub-section">
+                <img src="https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg" alt="Mapa Hplanet" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
                 <table>
                     <thead>
@@ -159,8 +171,22 @@
         <!-- FAQ / Ayuda -->
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
+            
             <div class="faq-item"><div class="faq-q">¿Puedo farmear score repitiendo el mismo mapa?</div><div class="faq-a">No. El score solo se suma al completar un mapa por primera vez o al superar tu propio récord, si ya lo habías completado anteriormente.</div></div>
             <div class="faq-item"><div class="faq-q">¿Puedo desconectarme y reconectarme para obtener puntos?</div><div class="faq-a">No. Al desconectarte, pierdes los puntos obtenidos en esa partida.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo revivir infinitamente a un compañero?</div><div class="faq-a">Sí. Es una mecánica permitida por el juego.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo completar el mapa con un amigo y repartir el score de alguna manera?</div><div class="faq-a">No. El score es individual y depende del desempeño de cada jugador.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo matar enemigos de una forma que genere puntos infinitamente?</div><div class="faq-a">Sí, siempre que el propio mapa permita hacerlo.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo manipular el tiempo?</div><div class="faq-a">No. Manipular el tiempo está totalmente prohibido y puede resultar en un veto del ranking.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo mandar resultados falsos al servidor?</div><div class="faq-a">No. Enviar resultados falsos está totalmente prohibido y puede resultar en un veto del ranking.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Qué pasa si dos jugadores terminan exactamente igual?</div><div class="faq-a">El criterio principal son los puntos. Si dos jugadores tienen el mismo score, se utilizarán las muertes y posteriormente el tiempo como criterios de desempate.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo jugar en cooperativo?</div><div class="faq-a">Sí. Puedes completar mapas junto a otros jugadores, pero el score de cada jugador se calcula individualmente según su desempeño.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo usar glitches o exploits del mapa?</div><div class="faq-a">No. Aprovechar bugs o exploits para obtener una ventaja injusta puede provocar la invalidación del resultado o un veto.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo usar scripts, macros o programas externos?</div><div class="faq-a">No. Cualquier herramienta externa que automatice acciones o proporcione una ventaja injusta está prohibida.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Qué cuenta como trampa?</div><div class="faq-a">Se considera trampa cualquier método externo o manipulación destinada a obtener una ventaja que no pueda conseguirse mediante las mecánicas normales del juego.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Qué ocurre si encuentro un bug en el sistema de puntuación?</div><div class="faq-a">Debes reportarlo. No está permitido aprovechar bugs para obtener score de manera injusta.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Qué pasa si alguien hace trampa?</div><div class="faq-a">El resultado será invalidado y el jugador podrá recibir un veto del ranking.</div></div>
+            <div class="faq-item"><div class="faq-q">¿Puedo reportar a otro jugador?</div><div class="faq-a">Sí. Si sospechas que un jugador está haciendo trampa o explotando el sistema, puedes reportarlo proporcionando pruebas suficientes para que el resultado pueda ser revisado.</div></div>
         </div>
     </div>
 
