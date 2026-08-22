@@ -93,9 +93,9 @@
                 <button class="sub-btn survival-btn" onclick="switchSubMap('hplanet', this)">Hplanet</button>
             </div>
 
-            <div id="intruder" class="sub-section active" data-mode="survival">
+            <div id="intruder" class="sub-section active" data-mode="survival" data-timelimit="60">
                 <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
-                <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
+                <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival] (Límite: 60m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
@@ -105,9 +105,9 @@
                 </table>
             </div>
 
-            <div id="grunts2" class="sub-section" data-mode="classic">
+            <div id="grunts2" class="sub-section" data-mode="classic" data-timelimit="60">
                 <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview">
-                <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico]</span></h3>
+                <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico] (Límite: 60m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
@@ -116,9 +116,9 @@
                 </table>
             </div>
 
-            <div id="hplanet" class="sub-section" data-mode="survival">
+            <div id="hplanet" class="sub-section" data-mode="survival" data-timelimit="40">
                 <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview">
-                <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival]</span></h3>
+                <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival] (Límite: 40m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
@@ -159,7 +159,7 @@
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
                 <div class="faq-q">¿Cómo se calculan los rangos y la eficiencia?</div>
-                <div class="faq-a">Se evalúa el rendimiento general premiando el score alto y penalizando las muertes, generando un porcentaje de 0 a 100:<br>
+                <div class="faq-a">Se evalúa mediante los 4 factores clave: Puntos en partida, aprovechamiento del tiempo límite del mapa, puntos por minuto (productividad) y penalizaciones por muertes:<br>
                     • <strong>100</strong> → SS<br>
                     • <strong>95–99</strong> → S<br>
                     • <strong>90–94</strong> → A<br>
@@ -199,46 +199,53 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // NUEVA FÓRMULA CORREGIDA: Basada principalmente en el Score obtenido y penalizando muertes
-    function calcularRangoYPorcentaje(score, tiempoSec, muertes, esGlobal = false) {
-        // Base de cálculo proporcional al score (a mayor score, mayor eficiencia asegurada)
-        let maxScoreEsperado = esGlobal ? 1200 : 450; 
-        let scorePonderado = Math.min(score, maxScoreEsperado);
-        
-        // Penalización por muertes (-3% por cada muerte)
-        let penalizacionMuertes = muertes * 3;
-        
-        // Porcentaje base derivado del rendimiento de puntos
-        let porcentaje = Math.round((scorePonderado / maxScoreEsperado) * 35 + 65) - penalizacionMuertes;
-        porcentaje = Math.min(Math.max(porcentaje, 40), 100); // Límites entre 40% y 100%
+    // FÓRMULA INTEGRADA CON LOS 4 FACTORES
+    function calcularEficienciaMapa(score, tiempoRealSec, tiempoLimiteMinutos, muertes) {
+        if (tiempoRealSec <= 0) tiempoRealSec = 60;
+        const minutosReal = tiempoRealSec / 60;
+        const tiempoLimiteSec = tiempoLimiteMinutos * 60;
 
-        // Si es el líder absoluto con gran ventaja, asegurar rango alto
-        if (score > 1000 && esGlobal) porcentaje = Math.max(porcentaje, 95);
+        // Factor 1 & 3: Puntos hechos + Puntos por minuto (Productividad en el tiempo transcurrido)
+        let puntosPorMinuto = score / minutosReal;
+        
+        // Factor 2: Aprovechamiento del tiempo límite (qué tan holgado completaron el mapa antes del límite)
+        let ratioVelocidadLimite = Math.min(tiempoLimiteSec / tiempoRealSec, 2.0); // Premia terminar rápido respecto al límite
 
+        // Combinar puntuación base con velocidad y productividad
+        let eficienciaBase = (puntosPorMinuto * 2.2) + (ratioVelocidadLimite * 15) + (score * 0.05);
+
+        // Factor 4: Penalización estricta por muertes (-3% o -4 puntos de eficiencia por muerte)
+        let penalizacionMuertes = muertes * 4;
+        let porcentajeFinal = Math.round(eficienciaBase - penalizacionMuertes);
+
+        // Normalizar porcentaje entre 40% y 100%
+        return Math.min(Math.max(porcentajeFinal, 40), 100);
+    }
+
+    function obtenerRangoYColor(porcentaje) {
         let rango = 'D';
-        let colorRango = '#777777';
+        let color = '#ff6600';
 
-        if (porcentaje >= 98) {
-            rango = 'SS'; colorRango = '#ff00ff';
+        if (porcentaje >= 95) {
+            rango = 'SS'; color = '#ff00ff';
         } else if (porcentaje >= 90) {
-            rango = 'S'; colorRango = '#ffeb3b';
+            rango = 'S'; color = '#ffeb3b';
         } else if (porcentaje >= 80) {
-            rango = 'A'; colorRango = '#4caf50';
+            rango = 'A'; color = '#4caf50';
         } else if (porcentaje >= 70) {
-            rango = 'B'; colorRango = '#00ccff';
+            rango = 'B'; color = '#00ccff';
         } else if (porcentaje >= 60) {
-            rango = 'C'; colorRango = '#ff9800';
-        } else {
-            rango = 'D'; colorRango = '#ff6600';
+            rango = 'C'; color = '#ff9800';
         }
 
         return {
-            porcentaje: porcentaje + '%',
-            html: `<span style="color: ${colorRango}; font-weight: bold;">${rango}</span>`
+            porcentajeStr: porcentaje + '%',
+            html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>`
         };
     }
 
     function calcularRankings() {
+        // 1. Procesar Ranking Global y Modos (Acumulado)
         const procesarAcumulado = (filtroModo = null) => {
             const stats = {};
             const mapSubSections = document.querySelectorAll('#mapas .sub-section');
@@ -247,7 +254,9 @@
                 const modoMapa = mapSec.getAttribute('data-mode');
                 if (filtroModo && modoMapa !== filtroModo) return;
 
+                const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
                 const rows = mapSec.querySelectorAll('.map-table tbody tr');
+
                 rows.forEach(row => {
                     const cols = row.querySelectorAll('td');
                     const jugador = cols[1].textContent.trim();
@@ -256,26 +265,38 @@
                     const muertes = parseInt(cols[4].textContent) || 0;
 
                     if (!stats[jugador]) {
-                        stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0 };
+                        stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficiencias: 0 };
                     }
                     stats[jugador].score += score;
                     stats[jugador].tiempoSec += tiempoSec;
                     stats[jugador].mapas += 1;
                     stats[jugador].muertes += muertes;
+
+                    // Acumular eficiencia individual del mapa para sacar promedio global
+                    stats[jugador].sumaEficiencias += calcularEficienciaMapa(score, tiempoSec, timelimit, muertes);
                 });
             });
 
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
-                const evalRango = calcularRangoYPorcentaje(data.score, data.tiempoSec, data.muertes, true);
+                const eficienciaPromedio = Math.round(data.sumaEficiencias / data.mapas);
+                const evalRango = obtenerRangoYColor(eficienciaPromedio);
+
+                // Asegurar rango máximo para el líder absoluto si corresponde
+                let rangoFinalHTML = evalRango.html;
+                if (data.score > 1000 && !filtroModo) {
+                    rangoFinalHTML = `<span style="color: #ff00ff; font-weight: bold;">SS</span>`;
+                }
+
                 return {
                     jugador,
                     score: data.score,
                     tiempoStr: secondsToTime(data.tiempoSec),
                     mapas: data.mapas,
                     muertes: data.muertes,
-                    eficiencia: evalRango.porcentaje,
-                    rangoHTML: evalRango.html
+                    eficiencia: evalRango.porcentajeStr,
+                    rangoHTML: rangoFinalHTML,
+                    eficienciaRaw: eficienciaPromedio
                 };
             });
 
@@ -305,8 +326,10 @@
         renderizarTabla('#tabla-survival tbody', procesarAcumulado('survival'));
         renderizarTabla('#tabla-classic tbody', procesarAcumulado('classic'));
 
+        // 2. Procesar Tablas Individuales por Mapa
         const mapSubSections = document.querySelectorAll('#mapas .sub-section');
         mapSubSections.forEach(mapSec => {
+            const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
             
             const mapaData = rows.map(row => {
@@ -317,15 +340,15 @@
                 const tiempoSec = timeToSeconds(tiempoStr);
                 const muertes = parseInt(cols[4].textContent) || 0;
 
-                const evalRango = calcularRangoYPorcentaje(score, tiempoSec, muertes, false);
+                const porcentajeEficiencia = calcularEficienciaMapa(score, tiempoSec, timelimit, muertes);
+                const evalRango = obtenerRangoYColor(porcentajeEficiencia);
 
                 return {
-                    row,
                     jugador,
                     score,
                     tiempoStr,
                     muertes,
-                    eficiencia: evalRango.porcentaje,
+                    eficiencia: evalRango.porcentajeStr,
                     rangoHTML: evalRango.html
                 };
             });
