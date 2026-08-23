@@ -169,12 +169,13 @@
                     • *Las muertes actúan como penalizadores directos restando eficiencia.*<br>
                     El rango de cada jugador se determina promediando de forma justa la eficiencia obtenida en cada mapa individual.<br><br>
                     <strong>Escala de Rangos:</strong><br>
-                    • <strong>100%</strong> → SS<br>
-                    • <strong>95–99%</strong> → S<br>
-                    • <strong>90–94%</strong> → A<br>
-                    • <strong>80–89%</strong> → B<br>
-                    • <strong>70–79%</strong> → C<br>
-                    • <strong>0–69%</strong> → D
+                    • 100% → SS<br>
+                    • 97–99% → S+ | 93–96% → S | 90–92% → S-<br>
+                    • 87–89% → A+ | 83–86% → A | 80–82% → A-<br>
+                    • 77–79% → B+ | 73–76% → B | 70–72% → B-<br>
+                    • 65–69% → C+ | 60–64% → C | 55–59% → C-<br>
+                    • 50–54% → D+ | 45–49% → D | 40–44% → D-<br>
+                    • 35–39% → F+ | 20–34% → F | 0–19% → F-
                 </div>
             </div>
         </div>
@@ -220,25 +221,51 @@
         let penalizacionMuertes = muertes * 4;
         let porcentajeFinal = Math.round(eficienciaBase - penalizacionMuertes);
 
-        return Math.min(Math.max(porcentajeFinal, 20), 100);
+        return Math.min(Math.max(porcentajeFinal, 0), 100);
     }
 
     function obtenerRangoYColor(porcentaje) {
-        let rango = 'D';
-        let color = '#ff6600';
+        let rango = 'F-';
+        let color = '#ff3333';
 
         if (porcentaje === 100) {
             rango = 'SS'; color = '#ff00ff';
-        } else if (porcentaje >= 95 && porcentaje <= 99) {
+        } else if (porcentaje >= 97) {
+            rango = 'S+'; color = '#ffeb3b';
+        } else if (porcentaje >= 93) {
             rango = 'S'; color = '#ffeb3b';
-        } else if (porcentaje >= 90 && porcentaje <= 94) {
+        } else if (porcentaje >= 90) {
+            rango = 'S-'; color = '#ffeb3b';
+        } else if (porcentaje >= 87) {
+            rango = 'A+'; color = '#4caf50';
+        } else if (porcentaje >= 83) {
             rango = 'A'; color = '#4caf50';
-        } else if (porcentaje >= 80 && porcentaje <= 89) {
+        } else if (porcentaje >= 80) {
+            rango = 'A-'; color = '#4caf50';
+        } else if (porcentaje >= 77) {
+            rango = 'B+'; color = '#00ccff';
+        } else if (porcentaje >= 73) {
             rango = 'B'; color = '#00ccff';
-        } else if (porcentaje >= 70 && porcentaje <= 79) {
+        } else if (porcentaje >= 70) {
+            rango = 'B-'; color = '#00ccff';
+        } else if (porcentaje >= 65) {
+            rango = 'C+'; color = '#ff9800';
+        } else if (porcentaje >= 60) {
             rango = 'C'; color = '#ff9800';
-        } else {
+        } else if (porcentaje >= 55) {
+            rango = 'C-'; color = '#ff9800';
+        } else if (porcentaje >= 50) {
+            rango = 'D+'; color = '#ff6600';
+        } else if (porcentaje >= 45) {
             rango = 'D'; color = '#ff6600';
+        } else if (porcentaje >= 40) {
+            rango = 'D-'; color = '#ff6600';
+        } else if (porcentaje >= 35) {
+            rango = 'F+'; color = '#ff3333';
+        } else if (porcentaje >= 20) {
+            rango = 'F'; color = '#ff3333';
+        } else {
+            rango = 'F-'; color = '#ff3333';
         }
 
         return {
