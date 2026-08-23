@@ -169,12 +169,12 @@
                     • *Las muertes actúan como penalizadores directos restando eficiencia.*<br>
                     El rango de cada jugador se determina promediando de forma justa la eficiencia obtenida en cada mapa individual.<br><br>
                     <strong>Escala de Rangos:</strong><br>
-                    • <strong>95–100%</strong> → SS<br>
-                    • <strong>90–94%</strong> → S<br>
-                    • <strong>80–89%</strong> → A<br>
-                    • <strong>70–79%</strong> → B<br>
-                    • <strong>60–69%</strong> → C<br>
-                    • <strong>0–59%</strong> → D
+                    • <strong>100%</strong> → SS<br>
+                    • <strong>95–99%</strong> → S<br>
+                    • <strong>90–94%</strong> → A<br>
+                    • <strong>80–89%</strong> → B<br>
+                    • <strong>70–79%</strong> → C<br>
+                    • <strong>0–69%</strong> → D
                 </div>
             </div>
         </div>
@@ -227,15 +227,15 @@
         let rango = 'D';
         let color = '#ff6600';
 
-        if (porcentaje >= 95) {
+        if (porcentaje === 100) {
             rango = 'SS'; color = '#ff00ff';
-        } else if (porcentaje >= 90) {
+        } else if (porcentaje >= 95 && porcentaje <= 99) {
             rango = 'S'; color = '#ffeb3b';
-        } else if (porcentaje >= 80) {
+        } else if (porcentaje >= 90 && porcentaje <= 94) {
             rango = 'A'; color = '#4caf50';
-        } else if (porcentaje >= 70) {
+        } else if (porcentaje >= 80 && porcentaje <= 89) {
             rango = 'B'; color = '#00ccff';
-        } else if (porcentaje >= 60) {
+        } else if (porcentaje >= 70 && porcentaje <= 79) {
             rango = 'C'; color = '#ff9800';
         } else {
             rango = 'D'; color = '#ff6600';
