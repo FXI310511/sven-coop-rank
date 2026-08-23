@@ -171,23 +171,11 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo se calculan la eficiencia y los rangos?</div>
+                <div class="faq-q">¿Cómo se calculan la eficiencia y los rangos dinámicos?</div>
                 <div class="faq-a">
-                    Por cada mapa se evalúan rigurosamente 4 factores integrados:<br>
-                    1. <strong>Puntos conseguidos en la partida.</strong><br>
-                    2. <strong>Tiempo total límite del mapa</strong> configurado por el juego.<br>
-                    3. <strong>Tiempo real que demoró en completarse</strong> frente al límite.<br>
-                    4. <strong>Productividad:</strong> Puntos logrados exactamente en los minutos que duró la partida.<br>
-                    • *Las muertes actúan como penalizadores directos restando eficiencia.*<br>
-                    El rango de cada jugador se determina promediando de forma justa la eficiencia obtenida en cada mapa individual.<br><br>
-                    <strong>Escala de Rangos:</strong><br>
-                    • 100% → SS<br>
-                    • 97–99% → S+ | 93–96% → S | 90–92% → S-<br>
-                    • 87–89% → A+ | 83–86% → A | 80–82% → A-<br>
-                    • 77–79% → B+ | 73–76% → B | 70–72% → B-<br>
-                    • 65–69% → C+ | 60–64% → C | 55–59% → C-<br>
-                    • 50–54% → D+ | 45–49% → D | 40–44% → D-<br>
-                    • 35–39% → F+ | 20–34% → F | 0–19% → F-
+                    El sistema utiliza un enfoque híbrido justo:<br>
+                    1. <strong>Base Fija Inicial:</strong> Evalúa los puntos, el tiempo límite, la velocidad y penaliza las muertes para establecer una calificación inicial objetiva.<br>
+                    2. <strong>Adaptación Dinámica:</strong> A medida que más jugadores completan un mapa, la métrica se ajusta en función del rendimiento relativo de la comunidad (percentiles). De este modo, los rangos más altos (como la SS) evolucionan automáticamente reflejando las marcas verdaderamente excepcionales de los récords actuales.
                 </div>
             </div>
         </div>
@@ -221,7 +209,8 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function calcularEficienciaMapa(score, tiempoRealSec, tiempoLimiteMinutos, muertes) {
+    // 1. Cálculo base fijo inicial por partida
+    function calcularEficienciaBaseMapa(score, tiempoRealSec, tiempoLimiteMinutos, muertes) {
         if (tiempoRealSec <= 0) tiempoRealSec = 60;
         const minutosReal = tiempoRealSec / 60;
         const tiempoLimiteSec = tiempoLimiteMinutos * 60;
@@ -240,7 +229,7 @@
         let rango = 'F-';
         let color = '#ff3333';
 
-        if (porcentaje === 100) {
+        if (porcentaje >= 100) {
             rango = 'SS'; color = '#ff00ff';
         } else if (porcentaje >= 97) {
             rango = 'S+'; color = '#ffeb3b';
@@ -281,18 +270,20 @@
         }
 
         return {
-            porcentajeStr: porcentaje + '%',
+            porcentajeStr: Math.round(porcentaje) + '%',
             html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>`
         };
     }
 
     function calcularRankings() {
         const mapSubSections = document.querySelectorAll('#mapas .sub-section');
+        
         mapSubSections.forEach(mapSec => {
             const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
             
-            const mapaData = rows.map(row => {
+            // Paso A: Recolectar datos base de cada jugador en el mapa
+            let mapaData = rows.map(row => {
                 const cols = row.querySelectorAll('td');
                 const jugador = cols[1].textContent.trim();
                 const score = parseInt(cols[2].textContent) || 0;
@@ -300,21 +291,47 @@
                 const tiempoSec = timeToSeconds(tiempoStr);
                 const muertes = parseInt(cols[4].textContent) || 0;
 
-                const porcentajeEficiencia = calcularEficienciaMapa(score, tiempoSec, timelimit, muertes);
-                const evalRango = obtenerRangoYColor(porcentajeEficiencia);
+                const efBase = calcularEficienciaBaseMapa(score, tiempoSec, timelimit, muertes);
 
                 return {
                     jugador,
                     score,
                     tiempoStr,
+                    tiempoSec,
                     muertes,
+                    efBase
+                };
+            });
+
+            // Ordenar provisionalmente por score y muertes para encontrar al mejor de la comunidad en este mapa
+            mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
+
+            // Paso B: Adaptación dinámica basada en la cantidad de datos y el mejor puntaje acumulado
+            const totalJugadoresMapa = mapaData.length;
+            const maxScoreMapa = mapaData.length > 0 ? mapaData[0].score : 1;
+
+            mapaData = mapaData.map((item, index) => {
+                let eficienciaFinal = item.efBase;
+
+                // Si hay más datos históricos/jugadores, ajustamos de forma relativa el tope de eficiencia comunitaria
+                if (totalJugadoresMapa > 1) {
+                    let factorRelativo = (item.score / maxScoreMapa) * 100;
+                    // Mezcla ponderada: 60% mérito fijo individual + 40% ajuste competitivo del mapa
+                    eficienciaFinal = (item.efBase * 0.6) + (factorRelativo * 0.4);
+                    if (index === 0 && item.muertes === 0 && factorRelativo >= 95) {
+                        eficienciaFinal = 100; // El líder impecable mantiene la máxima calificación de excelencia (SS)
+                    }
+                }
+
+                const evalRango = obtenerRangoYColor(eficienciaFinal);
+                return {
+                    ...item,
                     eficiencia: evalRango.porcentajeStr,
                     rangoHTML: evalRango.html
                 };
             });
 
-            mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
-
+            // Renderizar la tabla de cada mapa ordenadamente
             const tbody = mapSec.querySelector('.map-table tbody');
             tbody.innerHTML = '';
             mapaData.forEach((item, index) => {
@@ -331,6 +348,7 @@
             });
         });
 
+        // Procesamiento acumulado para rankings globales y por modo
         const procesarAcumulado = (filtroModo = null) => {
             const stats = {};
 
@@ -347,24 +365,22 @@
                     const score = parseInt(cols[2].textContent) || 0;
                     const tiempoSec = timeToSeconds(cols[3].textContent.trim());
                     const muertes = parseInt(cols[4].textContent) || 0;
+                    const efString = parseInt(cols[5].textContent) || 0;
 
                     if (!stats[jugador]) {
-                        stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficienciasModo: 0, mapasModo: 0 };
+                        stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficiencias: 0 };
                     }
                     stats[jugador].score += score;
                     stats[jugador].tiempoSec += tiempoSec;
                     stats[jugador].mapas += 1;
                     stats[jugador].muertes += muertes;
-
-                    const efMap = calcularEficienciaMapa(score, tiempoSec, timelimit, muertes);
-                    stats[jugador].sumaEficienciasModo += efMap;
-                    stats[jugador].mapasModo += 1;
+                    stats[jugador].sumaEficiencias += efString;
                 });
             });
 
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
-                const eficienciaPromedio = Math.round(data.sumaEficienciasModo / data.mapasModo);
+                const eficienciaPromedio = Math.round(data.sumaEficiencias / data.mapas);
                 const evalRango = obtenerRangoYColor(eficienciaPromedio);
 
                 return {
@@ -382,26 +398,6 @@
             return lista;
         };
 
-        const renderizarTabla = (selector, data) => {
-            const tbody = document.querySelector(selector);
-            tbody.innerHTML = '';
-            data.forEach((item, index) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="data-num">${index + 1}°</td>
-                        <td class="data-num">${index + 1}°</td>
-                        <td class="player-name">${item.jugador}</td>
-                        <td class="data-num">${item.score}</td>
-                        <td class="data-num">${item.tiempoStr}</td>
-                        <td class="data-num">${item.mapas}</td>
-                        <td class="data-num">${item.muertes}</td>
-                        <td class="data-num">${item.eficiencia}</td>
-                        <td>${item.rangoHTML}</td>
-                    </tr>`.replace('data-num">1°</td><td class="data-num">1°', 'data-num">1°'); // limpieza rápida de índice duplicado por plantilla
-            });
-        };
-
-        // Renderizado limpio de tablas generales / modales
         const renderizarTablaLimpia = (selector, data) => {
             const tbody = document.querySelector(selector);
             tbody.innerHTML = '';
