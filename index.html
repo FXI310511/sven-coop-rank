@@ -231,7 +231,7 @@
             <div class="faq-item">
                 <div class="faq-q">¿Cómo se calculan los rangos?</div>
                 <div class="faq-a">
-                    Se rigen estrictamente por los puntajes exactos proporcionados para cada mapa. Algunos mapas cuentan con condiciones especiales de tiempo y muertes para obtener la SS.
+                    Se rigen estrictamente por los puntajes exactos proporcionados para cada mapa. Si un jugador supera el puntaje de la SS pero le falta algún requisito secundario de tiempo o muertes, recibe automáticamente el rango S+ (95%).
                 </div>
             </div>
         </div>
@@ -265,19 +265,16 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    // Evaluador de rangos con tablas y condiciones específicas por mapa
     function evaluarRangoPorScore(score, muertes, tiempoSec, mapId) {
-        // Regla especial para Intruder
         if (mapId === 'intruder') {
-            const tiempoLimiteSS = 27 * 60 + 46; // 27:46
+            const tiempoLimiteSS = 27 * 60 + 46;
             if (score >= 583 && muertes <= 2 && tiempoSec < tiempoLimiteSS) {
                 return { rango: 'SS', color: '#ff00ff', porcentaje: 100 };
             }
         }
 
-        // Regla especial para Hplanet
         if (mapId === 'hplanet') {
-            const tiempoLimiteSS = 21 * 60 + 35; // 21:35
+            const tiempoLimiteSS = 21 * 60 + 35;
             if (score >= 646 && muertes <= 1 && tiempoSec < tiempoLimiteSS) {
                 return { rango: 'SS', color: '#ff00ff', porcentaje: 100 };
             }
@@ -288,7 +285,7 @@
         let porcentaje = 10;
 
         if (mapId === 'intruder') {
-            if (score >= 583) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            if (score >= 583) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 552) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 522) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
             else if (score >= 491) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
@@ -309,7 +306,7 @@
             else if (score >= 31)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
             else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         } else if (mapId === 'hplanet') {
-            if (score >= 646) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            if (score >= 646) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 612) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 578) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
             else if (score >= 544) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
@@ -330,8 +327,7 @@
             else if (score >= 34)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
             else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         } else {
-            // Tabla estándar para otros mapas
-            if (score >= 554) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            if (score >= 554) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 522) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
             else if (score >= 493) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
             else if (score >= 464) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
