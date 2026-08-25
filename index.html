@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sven Co-op - Survival Leaderboard</title>
+    <title>Sven Co-op - Leaderboard Competitivo Dinámico</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -54,6 +54,10 @@
         .analysis-box { background: #152615; border: 1px solid #388e3c; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 0.9rem; line-height: 1.6; }
         .analysis-box h4 { color: #ffeb3b; margin-top: 0; }
 
+        .requirements-box { background: #1b1b26; border: 1px solid #5c6bc0; padding: 15px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem; line-height: 1.5; }
+        .requirements-box h4 { color: #9fa8da; margin-top: 0; }
+        .requirements-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 10px; padding-left: 15px; }
+
         .faq-item { margin-bottom: 25px; border-bottom: 1px solid #223822; padding-bottom: 15px; }
         .faq-q { font-size: 1.3rem; color: #4caf50; margin-bottom: 5px; }
         .faq-a { font-size: 0.95rem; color: #ffffff; line-height: 1.5; }
@@ -78,10 +82,10 @@
         <!-- Ranking Global -->
         <div id="general" class="section active">
             <h2 style="color: #4caf50;">Clasificación General</h2>
-            <p style="font-size: 0.85rem; color: #a8f0a8; margin-top: -5px;">* Muestra la suma combinada de estadísticas de todos los mapas completados.</p>
+            <p style="font-size: 0.85rem; color: #a8f0a8; margin-top: -5px;">* Promedio acumulado de eficiencia y rangos individuales por mapa.</p>
             <table id="tabla-general">
                 <thead>
-                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Tiempo Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Global</th><th>Rango Global</th></tr>
+                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Tiempo Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango Global</th></tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -102,6 +106,7 @@
                 <button class="sub-btn coop-btn" onclick="switchSubMap('abandoned', this)">Abandoned</button>
             </div>
 
+            <!-- Intruder -->
             <div id="intruder" class="sub-section active" data-mode="survival" data-timelimit="60">
                 <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Medium] (Límite: 60m)</span></h3>
@@ -113,13 +118,18 @@
                     </tbody>
                 </table>
                 <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico Especial: Intruder (Survival / Medium)</h4>
+                    <h4>🎯 Análisis Táctico: Intruder</h4>
                     <p id="intruder-insights">Cargando...</p>
+                </div>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos Dinámicos de Rangos - Intruder</h4>
+                    <ul class="requirements-list" id="intruder-reqs"></ul>
                 </div>
             </div>
 
+            <!-- Grunts2 -->
             <div id="grunts2" class="sub-section" data-mode="classic" data-timelimit="60">
-                <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview">
+                <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico - Easy] (Límite: 60m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
@@ -128,13 +138,18 @@
                     </tbody>
                 </table>
                 <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico Especial: Grunts2 (Clásico / Easy)</h4>
+                    <h4>🎯 Análisis Táctico: Grunts2</h4>
                     <p id="grunts2-insights">Cargando...</p>
+                </div>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos Dinámicos de Rangos - Grunts2</h4>
+                    <ul class="requirements-list" id="grunts2-reqs"></ul>
                 </div>
             </div>
 
+            <!-- Hplanet -->
             <div id="hplanet" class="sub-section" data-mode="survival" data-timelimit="40">
-                <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview">
+                <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Easy] (Límite: 40m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
@@ -145,11 +160,16 @@
                     </tbody>
                 </table>
                 <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico Especial: Hplanet (Survival / Easy)</h4>
+                    <h4>🎯 Análisis Táctico: Hplanet</h4>
                     <p id="hplanet-insights">Cargando...</p>
+                </div>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos Dinámicos de Rangos - Hplanet</h4>
+                    <ul class="requirements-list" id="hplanet-reqs"></ul>
                 </div>
             </div>
 
+            <!-- Yabma -->
             <div id="yabma" class="sub-section" data-mode="survival" data-timelimit="99">
                 <img src="yabma.jpg" alt="Mapa Yabma" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Yabma <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Medium] (Límite: 99m)</span></h3>
@@ -160,16 +180,20 @@
                     </tbody>
                 </table>
                 <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico Especial: Yabma (Survival / Medium)</h4>
+                    <h4>🎯 Análisis Táctico: Yabma</h4>
                     <p id="yabma-insights">Cargando...</p>
+                </div>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos Dinámicos de Rangos - Yabma</h4>
+                    <ul class="requirements-list" id="yabma-reqs"></ul>
                 </div>
             </div>
 
-            <!-- ABANDONED (Con análisis específico Co-op / Hard / 200m) -->
+            <!-- Abandoned -->
             <div id="abandoned" class="sub-section" data-mode="coop" data-timelimit="200">
                 <img src="abandoned.jpg" alt="Mapa Abandoned" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Abandoned <span style="color: #ba68c8; font-size: 0.9rem;">[Co-op / Hard] (Límite: 200m)</span></h3>
-                <table class="map-table" id="table-abandoned">
+                <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">783</td><td class="data-num">84:29</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
@@ -177,8 +201,12 @@
                     </tbody>
                 </table>
                 <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico Especial: Abandoned (Co-op / Hard)</h4>
-                    <p id="abandoned-insights">Calculando estimación para Doble SS y rendimiento...</p>
+                    <h4>🎯 Análisis Táctico: Abandoned</h4>
+                    <p id="abandoned-insights">Cargando...</p>
+                </div>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos Dinámicos de Rangos - Abandoned</h4>
+                    <ul class="requirements-list" id="abandoned-reqs"></ul>
                 </div>
             </div>
         </div>
@@ -220,9 +248,9 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo se evalúa el modo Co-op Obligatorio en Abandoned?</div>
+                <div class="faq-q">¿Cómo se calculan los promedios y requisitos dinámicos?</div>
                 <div class="faq-a">
-                    Tratándose de un mapa de dificultad <b>Hard</b>, con una duración larga de hasta <b>200 minutos</b> bajo mecánicas estrictas de cooperación obligatoria y supervivencia sin respawns libres, las muertes castigan con dureza. El logro histórico de <b>F X I</b> (84:29 minutos, 783 puntos y 0 muertes) demuestra un dominio absoluto y un mérito extraordinario debido a la complejidad de superar este mapa cooperativo.
+                    La eficiencia global y por categoría se obtiene mediante el promedio aritmético de las eficiencias individuales de cada mapa. Los requisitos de rangos se adaptan dinámicamente en tiempo real en función del puntaje máximo registrado y el rendimiento de los jugadores en cada mapa.
                 </div>
             </div>
         </div>
@@ -256,21 +284,22 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function calcularEficienciaBalanceada(score, tiempoRealSec, tiempoLimiteMinutos, muertes, esClasico = false) {
+    function calcularEficienciaBalanceada(score, tiempoRealSec, tiempoLimiteMinutos, muertes, maxScoreMapa, esClasico = false) {
         if (tiempoRealSec <= 0) tiempoRealSec = 60;
         const minutosReal = tiempoRealSec / 60;
         const tiempoLimiteSec = tiempoLimiteMinutos * 60;
 
-        let factorScore = Math.min((score / 900) * 100, 100);
+        let baseRefScore = Math.max(maxScoreMapa, 300);
+        let factorScore = Math.min((score / baseRefScore) * 100, 100);
         let ratioVelocidad = Math.max(0, (tiempoLimiteSec - tiempoRealSec) / tiempoLimiteSec);
         let factorTiempo = ratioVelocidad * 100;
         let puntosPorMinuto = score / minutosReal;
-        let factorProductividad = Math.min((puntosPorMinuto / 20) * 100, 100);
+        let factorProductividad = Math.min((puntosPorMinuto / 30) * 100, 100);
 
-        let eficienciaBase = (factorScore * 0.333) + (factorTiempo * 0.333) + (factorProductividad * 0.333);
+        let eficienciaBase = (factorScore * 0.35) + (factorTiempo * 0.35) + (factorProductividad * 0.30);
         
-        let penalizacionMuertes = muertes * (esClasico ? 2 : 12); // Castigo severo por Hard/Coop estricto
-        let penalizacionDemora = minutosReal > (tiempoLimiteMinutos * 0.8) ? 15 : 0;
+        let penalizacionMuertes = muertes * (esClasico ? 2 : 12);
+        let penalizacionDemora = minutosReal > (tiempoLimiteMinutos * 0.85) ? 15 : 0;
 
         let eficienciaFinal = Math.round(eficienciaBase - penalizacionMuertes - penalizacionDemora);
         return Math.min(Math.max(eficienciaFinal, 0), 100);
@@ -280,61 +309,66 @@
         let rango = 'F-';
         let color = '#ff3333';
 
-        if (porcentaje >= 98) {
-            rango = 'SS'; color = '#ff00ff';
-        } else if (porcentaje >= 93) {
-            rango = 'S+'; color = '#ffeb3b';
-        } else if (porcentaje >= 88) {
-            rango = 'S'; color = '#ffeb3b';
-        } else if (porcentaje >= 83) {
-            rango = 'S-'; color = '#ffeb3b';
-        } else if (porcentaje >= 78) {
-            rango = 'A+'; color = '#4caf50';
-        } else if (porcentaje >= 73) {
-            rango = 'A'; color = '#4caf50';
-        } else if (porcentaje >= 68) {
-            rango = 'A-'; color = '#4caf50';
-        } else if (porcentaje >= 63) {
-            rango = 'B+'; color = '#00ccff';
-        } else if (porcentaje >= 58) {
-            rango = 'B'; color = '#00ccff';
-        } else if (porcentaje >= 53) {
-            rango = 'B-'; color = '#00ccff';
-        } else if (porcentaje >= 48) {
-            rango = 'C+'; color = '#ff9800';
-        } else if (porcentaje >= 43) {
-            rango = 'C'; color = '#ff9800';
-        } else if (porcentaje >= 38) {
-            rango = 'C-'; color = '#ff9800';
-        } else if (porcentaje >= 33) {
-            rango = 'D+'; color = '#ff6600';
-        } else if (porcentaje >= 28) {
-            rango = 'D'; color = '#ff6600';
-        } else if (porcentaje >= 22) {
-            rango = 'D-'; color = '#ff6600';
-        } else if (porcentaje >= 15) {
-            rango = 'F+'; color = '#ff3333';
-        } else if (porcentaje >= 5) {
-            rango = 'F'; color = '#ff3333';
-        } else {
-            rango = 'F-'; color = '#ff3333';
-        }
+        if (porcentaje >= 98) { rango = 'SS'; color = '#ff00ff'; }
+        else if (porcentaje >= 93) { rango = 'S+'; color = '#ffeb3b'; }
+        else if (porcentaje >= 88) { rango = 'S'; color = '#ffeb3b'; }
+        else if (porcentaje >= 83) { rango = 'S-'; color = '#ffeb3b'; }
+        else if (porcentaje >= 78) { rango = 'A+'; color = '#4caf50'; }
+        else if (porcentaje >= 73) { rango = 'A'; color = '#4caf50'; }
+        else if (porcentaje >= 68) { rango = 'A-'; color = '#4caf50'; }
+        else if (porcentaje >= 63) { rango = 'B+'; color = '#00ccff'; }
+        else if (porcentaje >= 58) { rango = 'B'; color = '#00ccff'; }
+        else if (porcentaje >= 53) { rango = 'B-'; color = '#00ccff'; }
+        else if (porcentaje >= 48) { rango = 'C+'; color = '#ff9800'; }
+        else if (porcentaje >= 43) { rango = 'C'; color = '#ff9800'; }
+        else if (porcentaje >= 38) { rango = 'C-'; color = '#ff9800'; }
+        else if (porcentaje >= 33) { rango = 'D+'; color = '#ff6600'; }
+        else if (porcentaje >= 28) { rango = 'D'; color = '#ff6600'; }
+        else if (porcentaje >= 22) { rango = 'D-'; color = '#ff6600'; }
+        else if (porcentaje >= 15) { rango = 'F+'; color = '#ff3333'; }
+        else if (porcentaje >= 5) { rango = 'F'; color = '#ff3333'; }
+        else { rango = 'F-'; color = '#ff3333'; }
 
-        return {
-            porcentajeStr: Math.round(porcentaje) + '%',
-            html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>`
-        };
+        return { porcentajeStr: Math.round(porcentaje) + '%', html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>` };
+    }
+
+    function actualizarRequisitosMapa(mapId, maxScore, timelimit) {
+        const reqContainer = document.getElementById(`${mapId}-reqs`);
+        if (!reqContainer) return;
+
+        let targetSS = Math.round(maxScore * 1.05);
+        let targetS = Math.round(maxScore * 0.90);
+        let targetA = Math.round(maxScore * 0.75);
+        let targetB = Math.round(maxScore * 0.55);
+        let targetC = Math.round(maxScore * 0.35);
+        let targetD = Math.round(maxScore * 0.20);
+
+        reqContainer.innerHTML = `
+            <li><b>SS (Doble):</b> ${targetSS}+ pts | 0 Muertes | Tiempo &lt; ${Math.round(timelimit * 0.5)}m</li>
+            <li><b>S:</b> ${targetS}+ pts | Max 1 Muerte | Tiempo &lt; ${Math.round(timelimit * 0.65)}m</li>
+            <li><b>A:</b> ${targetA}+ pts | Max 2 Muertes | Tiempo &lt; ${Math.round(timelimit * 0.8)}m</li>
+            <li><b>B:</b> ${targetB}+ pts | Max 4 Muertes | Dentro del límite</li>
+            <li><b>C / D:</b> ${targetC} - ${targetD} pts | Varios decesos</li>
+            <li><b>F:</b> Menor a ${targetD} pts o superado el tiempo</li>
+        `;
     }
 
     function calcularRankings() {
         const mapSubSections = document.querySelectorAll('#mapas .sub-section');
         
         mapSubSections.forEach(mapSec => {
+            const mapId = mapSec.getAttribute('id');
             const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
             const mode = mapSec.getAttribute('data-mode');
             const esClasico = (mode === 'classic');
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
             
+            let maxScore = 100;
+            rows.forEach(row => {
+                const s = parseInt(row.querySelectorAll('td')[2].textContent) || 0;
+                if (s > maxScore) maxScore = s;
+            });
+
             let mapaData = rows.map(row => {
                 const cols = row.querySelectorAll('td');
                 const jugador = cols[1].textContent.trim();
@@ -343,27 +377,16 @@
                 const tiempoSec = timeToSeconds(tiempoStr);
                 const muertes = parseInt(cols[4].textContent) || 0;
 
-                const efBase = calcularEficienciaBalanceada(score, tiempoSec, timelimit, muertes, esClasico);
+                const efBase = calcularEficienciaBalanceada(score, tiempoSec, timelimit, muertes, maxScore, esClasico);
 
-                return {
-                    jugador,
-                    score,
-                    tiempoStr,
-                    tiempoSec,
-                    muertes,
-                    efBase
-                };
+                return { jugador, score, tiempoStr, tiempoSec, muertes, efBase, modo: mode };
             });
 
             mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
 
             mapaData = mapaData.map((item) => {
                 const evalRango = obtenerRangoYColor(item.efBase);
-                return {
-                    ...item,
-                    eficiencia: evalRango.porcentajeStr,
-                    rangoHTML: evalRango.html
-                };
+                return { ...item, eficiencia: evalRango.porcentajeStr, rangoHTML: evalRango.html, efNum: item.efBase };
             });
 
             const tbody = mapSec.querySelector('.map-table tbody');
@@ -380,40 +403,34 @@
                         <td>${item.rangoHTML}</td>
                     </tr>`;
             });
+
+            actualizarRequisitosMapa(mapId, maxScore, timelimit);
         });
 
-        // Insights previos
-        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts en 33:14 (Survival Medium). Requisito Doble SS: 0 muertes, >750 pts y <25 min.`;
-        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts en Clásico Easy. Requisito Doble SS: 600+ pts, <18 min y alta agresividad.`;
-        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts (0 muertes) en Survival Easy. Requisito Doble SS cumplido con alta eficiencia.`;
-        document.getElementById('yabma-insights').innerHTML = `<b>F X I</b> lidera con 864 pts en 59:00 (Survival Medium). Requisito Doble SS: 0 muertes, >950 pts y <50 min.`;
+        // Insights específicos por mapa
+        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts. Requisito Doble SS dinámico: Superar 465+ pts con 0 muertes y menor a 30 min.`;
+        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts en Clásico. Requisito Doble SS dinámico: 350+ pts con 0 muertes en menos de 20 min.`;
+        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts (0 muertes). Requisito Doble SS dinámico: 950+ pts manteniendo un tiempo inferior a 20 min.`;
+        document.getElementById('yabma-insights').innerHTML = `<b>F X I</b> lidera con 864 pts en 59:00. Requisito Doble SS dinámico: 910+ pts sin decesos y menor a 50 min.`;
+        document.getElementById('abandoned-insights').innerHTML = `<b>F X I</b> lidera con 783 pts (0 muertes). Requisito Doble SS dinámico: 825+ pts en &lt;75 min bajo estricta cooperación.`;
 
-        // Insights específicos para Abandoned
-        let abandonedDataText = '';
-        const rowsAbandoned = document.querySelectorAll('#abandoned .map-table tbody tr');
-        rowsAbandoned.forEach(r => {
-            const cols = r.querySelectorAll('td');
-            abandonedDataText += `• <b>${cols[1].textContent.trim()}</b>: ${cols[2].textContent} pts, ${cols[3].textContent}, ${cols[4].textContent} muerte(s) -> Eficiencia: ${cols[5].textContent} (${cols[6].innerHTML})<br>`;
-        });
-
-        const abandonedInsightsHtml = `
-            <b>Estado Actual en Abandoned (Co-op Obligatorio / Hard / 200 min):</b><br>
-            ${abandonedDataText}<br>
-            ⭐ <b>¿Qué se necesita para alcanzar una Doble SS en Abandoned?</b><br>
-            1. <b>Supervivencia Absoluta y Cero Muertes (Mérito Histórico):</b> Al ser un mapa de dificultad Hard con resolución cooperativa obligatoria y sin respawns libres, las muertes castigan con severidad. El registro de <b>F X I</b> (84:29 min, 783 pts, <b>0 muertes</b>) destaca por un mérito descomunal, coronándose como el estándar de oro en este entorno hostil.<br>
-            2. <b>Maximización del Puntaje Colectivo:</b> Para rozar la perfección máxima, el equipo debe superar la barrera de los <b>850 - 900 puntos</b> limpiando exhaustivamente las amenazas en las zonas más complejas de la campaña.<br>
-            3. <b>Control Temporal Óptimo:</b> Aunque el límite es sumamente amplio (200 minutos), la eficiencia temporal exige completar la ruta táctica en menos de <b>75 minutos</b> para evitar penalizaciones por demora y maximizar el ratio de puntos por minuto.
-        `;
-        document.getElementById('abandoned-insights').innerHTML = abandonedInsightsHtml;
-
-        const procesarAcumulado = (filtroModo = null) => {
+        // Procesar tablas acumuladas con sumas individuales y promedio total real
+        const procesarAcumuladoPorFiltro = (filtroModo = null) => {
             const stats = {};
 
             mapSubSections.forEach(mapSec => {
                 const modoMapa = mapSec.getAttribute('data-mode');
                 if (filtroModo && modoMapa !== filtroModo) return;
 
+                const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
+                const esClasico = (modoMapa === 'classic');
                 const rows = mapSec.querySelectorAll('.map-table tbody tr');
+                
+                let maxScore = 100;
+                rows.forEach(r => {
+                    const s = parseInt(r.querySelectorAll('td')[2].textContent) || 0;
+                    if (s > maxScore) maxScore = s;
+                });
 
                 rows.forEach(row => {
                     const cols = row.querySelectorAll('td');
@@ -421,7 +438,8 @@
                     const score = parseInt(cols[2].textContent) || 0;
                     const tiempoSec = timeToSeconds(cols[3].textContent.trim());
                     const muertes = parseInt(cols[4].textContent) || 0;
-                    const efString = parseInt(cols[5].textContent) || 0;
+
+                    const efNum = calcularEficienciaBalanceada(score, tiempoSec, timelimit, muertes, maxScore, esClasico);
 
                     if (!stats[jugador]) {
                         stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficiencias: 0 };
@@ -430,12 +448,13 @@
                     stats[jugador].tiempoSec += tiempoSec;
                     stats[jugador].mapas += 1;
                     stats[jugador].muertes += muertes;
-                    stats[jugador].sumaEficiencias += efString;
+                    stats[jugador].sumaEficiencias += efNum;
                 });
             });
 
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
+                // Promedio exacto sumando las eficiencias individuales de cada mapa jugado
                 const eficienciaPromedio = Math.round(data.sumaEficiencias / data.mapas);
                 const evalRango = obtenerRangoYColor(eficienciaPromedio);
 
@@ -445,7 +464,7 @@
                     tiempoStr: secondsToTime(data.tiempoSec),
                     mapas: data.mapas,
                     muertes: data.muertes,
-                    eficiencia: evalRango.porcentajeStr,
+                    eficiencia: eficienciaPromedio + '%',
                     rangoHTML: evalRango.html
                 };
             });
@@ -454,7 +473,7 @@
             return lista;
         };
 
-        const renderizarTablaLimpia = (selector, data) => {
+        const renderizarTablaAcumulada = (selector, data) => {
             const tbody = document.querySelector(selector);
             tbody.innerHTML = '';
             data.forEach((item, index) => {
@@ -472,10 +491,10 @@
             });
         };
 
-        renderizarTablaLimpia('#tabla-general tbody', procesarAcumulado(null));
-        renderizarTablaLimpia('#tabla-survival tbody', procesarAcumulado('survival'));
-        renderizarTablaLimpia('#tabla-classic tbody', procesarAcumulado('classic'));
-        renderizarTablaLimpia('#tabla-coop tbody', procesarAcumulado('coop'));
+        renderizarTablaAcumulada('#tabla-general tbody', procesarAcumuladoPorFiltro(null));
+        renderizarTablaAcumulada('#tabla-survival tbody', procesarAcumuladoPorFiltro('survival'));
+        renderizarTablaAcumulada('#tabla-classic tbody', procesarAcumuladoPorFiltro('classic'));
+        renderizarTablaAcumulada('#tabla-coop tbody', procesarAcumuladoPorFiltro('coop'));
     }
 
     window.onload = calcularRankings;
