@@ -140,23 +140,23 @@
                 </div>
             </div>
 
-<!-- Hplanet -->
-<div id="hplanet" class="sub-section" data-mode="survival" data-timelimit="40">
-    <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
-    <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Easy] (Límite: 40m)</span></h3>
-    <table class="map-table">
-        <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
-        <tbody>
-            <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">902</td><td class="data-num">17:11</td><td class="data-num">0</td><td class="data-num">95%</td><td><span style="color: #ffeb3b; font-weight: bold;">S+</span></td></tr>
-            <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">21:48</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
-            <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">21:48</td><td class="data-num">6</td><td class="data-num">-</td><td>-</td></tr>
-        </tbody>
-    </table>
-    <div class="requirements-box">
-        <h4>📊 Requisitos de Rangos - Hplanet</h4>
-        <div class="req-grid" id="hplanet-reqs"></div>
-    </div>
-</div>
+            <!-- Hplanet -->
+            <div id="hplanet" class="sub-section" data-mode="survival" data-timelimit="40">
+                <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
+                <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Easy] (Límite: 40m)</span></h3>
+                <table class="map-table">
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <tbody>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">902</td><td class="data-num">17:11</td><td class="data-num">0</td><td class="data-num">95%</td><td><span style="color: #ffeb3b; font-weight: bold;">S+</span></td></tr>
+                        <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">21:48</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">21:48</td><td class="data-num">6</td><td class="data-num">-</td><td>-</td></tr>
+                    </tbody>
+                </table>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos de Rangos - Hplanet</h4>
+                    <div class="req-grid" id="hplanet-reqs"></div>
+                </div>
+            </div>
 
             <!-- Yabma -->
             <div id="yabma" class="sub-section" data-mode="survival" data-timelimit="99">
@@ -419,7 +419,19 @@
                 const tiempoSec = timeToSeconds(tiempoStr);
                 const muertes = parseInt(cols[4].textContent) || 0;
 
-                const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
+                // Si ya viene seteado manualmente en el HTML (como en hplanet), respetarlo
+                let eficienciaStr = cols[5].textContent.trim();
+                let rangoHTML = cols[6].innerHTML.trim();
+                let efNum = 0;
+
+                if (eficienciaStr !== '-' && eficienciaStr !== '') {
+                    efNum = parseInt(eficienciaStr);
+                } else {
+                    const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
+                    eficienciaStr = evalRango.porcentajeStr;
+                    rangoHTML = evalRango.html;
+                    efNum = evalRango.porcentajeNum;
+                }
 
                 return { 
                     jugador, 
@@ -427,9 +439,9 @@
                     tiempoStr, 
                     tiempoSec, 
                     muertes, 
-                    eficiencia: evalRango.porcentajeStr, 
-                    rangoHTML: evalRango.html, 
-                    efNum: evalRango.porcentajeNum 
+                    eficiencia: eficienciaStr, 
+                    rangoHTML: rangoHTML, 
+                    efNum: efNum 
                 };
             });
 
@@ -469,8 +481,15 @@
                     const score = parseInt(cols[2].textContent) || 0;
                     const tiempoSec = timeToSeconds(cols[3].textContent.trim());
                     const muertes = parseInt(cols[4].textContent) || 0;
+                    const efText = cols[5].textContent.trim();
 
-                    const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
+                    let efNum = 0;
+                    if (efText !== '-' && efText !== '') {
+                        efNum = parseInt(efText);
+                    } else {
+                        const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
+                        efNum = evalRango.porcentajeNum;
+                    }
 
                     if (!stats[jugador]) {
                         stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficiencias: 0 };
@@ -479,7 +498,7 @@
                     stats[jugador].tiempoSec += tiempoSec;
                     stats[jugador].mapas += 1;
                     stats[jugador].muertes += muertes;
-                    stats[jugador].sumaEficiencias += evalRango.porcentajeNum;
+                    stats[jugador].sumaEficiencias += efNum;
                 });
             });
 
