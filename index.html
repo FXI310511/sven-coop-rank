@@ -231,7 +231,7 @@
             <div class="faq-item">
                 <div class="faq-q">¿Cómo se calculan los rangos?</div>
                 <div class="faq-a">
-                    Se rigen estrictamente por los puntajes exactos proporcionados para cada mapa. Si un jugador supera el puntaje de la SS pero le falta algún requisito secundario de tiempo o muertes, recibe automáticamente el rango S+ (95%).
+                    Se rigen estrictamente por los puntajes exactos proporcionados para cada mapa. Algunos mapas cuentan con condiciones especiales de tiempo y muertes para obtener la SS.
                 </div>
             </div>
         </div>
@@ -288,72 +288,69 @@
         let porcentaje = 10;
 
         if (mapId === 'intruder') {
-            if (score >= 583) { rango = 'SS'; color: '#ff00ff', porcentaje: 100; }
-            else if (score >= 552) { rango = 'S+'; color = '#ffeb3b'; porcentaje: 95; }
-            else if (score >= 522) { rango = 'S'; color = '#ffeb3b'; porcentaje: 90; }
-            else if (score >= 491) { rango = 'S-'; color = '#ffeb3b'; porcentaje: 85; }
-            else if (score >= 460) { rango = 'A+'; color = '#4caf50'; porcentaje: 80; }
-            else if (score >= 430) { rango = 'A'; color = '#4caf50'; porcentaje: 75; }
-            else if (score >= 399) { rango = 'A-'; color = '#4caf50'; porcentaje: 70; }
-            else if (score >= 368) { rango = 'B+'; color = '#00ccff'; porcentaje: 65; }
-            else if (score >= 338) { rango = 'B'; color = '#00ccff'; porcentaje: 60; }
-            else if (score >= 307) { rango = 'B-'; color = '#00ccff'; porcentaje: 55; }
-            else if (score >= 276) { rango = 'C+'; color = '#ff9800'; porcentaje: 50; }
-            else if (score >= 245) { rango = 'C'; color = '#ff9800'; porcentaje: 45; }
-            else if (score >= 215) { rango = 'C-'; color = '#ff9800'; porcentaje: 40; }
-            else if (score >= 184) { rango = 'D+'; color = '#ff6600'; porcentaje: 35; }
-            else if (score >= 153) { rango = 'D'; color = '#ff6600'; porcentaje: 30; }
-            else if (score >= 113) { rango = 'D-'; color = '#ff6600'; porcentaje: 25; }
-            else if (score >= 92)  { rango = 'F+'; color = '#ff3333'; porcentaje: 20; }
-            else if (score >= 61)  { rango = 'F'; color = '#ff3333'; porcentaje: 15; }
-            else if (score >= 31)  { rango = 'F-'; color = '#ff3333'; porcentaje: 10; }
-            else { rango = 'F-'; color = '#ff3333'; porcentaje: 5; }
+            if (score >= 583) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            else if (score >= 552) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
+            else if (score >= 522) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
+            else if (score >= 491) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
+            else if (score >= 460) { rango = 'A+'; color = '#4caf50'; porcentaje = 80; }
+            else if (score >= 430) { rango = 'A'; color = '#4caf50'; porcentaje = 75; }
+            else if (score >= 399) { rango = 'A-'; color = '#4caf50'; porcentaje = 70; }
+            else if (score >= 368) { rango = 'B+'; color = '#00ccff'; porcentaje = 65; }
+            else if (score >= 338) { rango = 'B'; color = '#00ccff'; porcentaje = 60; }
+            else if (score >= 307) { rango = 'B-'; color = '#00ccff'; porcentaje = 55; }
+            else if (score >= 276) { rango = 'C+'; color = '#ff9800'; porcentaje = 50; }
+            else if (score >= 245) { rango = 'C'; color = '#ff9800'; porcentaje = 45; }
+            else if (score >= 215) { rango = 'C-'; color = '#ff9800'; porcentaje = 40; }
+            else if (score >= 184) { rango = 'D+'; color = '#ff6600'; porcentaje = 35; }
+            else if (score >= 153) { rango = 'D'; color = '#ff6600'; porcentaje = 30; }
+            else if (score >= 113) { rango = 'D-'; color = '#ff6600'; porcentaje = 25; }
+            else if (score >= 92)  { rango = 'F+'; color = '#ff3333'; porcentaje = 20; }
+            else if (score >= 61)  { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
+            else if (score >= 31)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
+            else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         } else if (mapId === 'hplanet') {
-            if (score >= 646) {
-                // Si supera el score de SS pero no cumplió la condición especial de tiempo/muertes, se le asigna S+
-                rango = 'S+'; color = '#ffeb3b'; porcentaje = 95;
-            }
-            else if (score >= 612) { rango = 'S+'; color = '#ffeb3b'; porcentaje: 95; }
-            else if (score >= 578) { rango = 'S'; color = '#ffeb3b'; porcentaje: 90; }
-            else if (score >= 544) { rango = 'S-'; color = '#ffeb3b'; porcentaje: 85; }
-            else if (score >= 510) { rango = 'A+'; color = '#4caf50'; porcentaje: 80; }
-            else if (score >= 476) { rango = 'A'; color = '#4caf50'; porcentaje: 75; }
-            else if (score >= 442) { rango = 'A-'; color = '#4caf50'; porcentaje: 70; }
-            else if (score >= 408) { rango = 'B+'; color = '#00ccff'; porcentaje: 65; }
-            else if (score >= 374) { rango = 'B'; color = '#00ccff'; porcentaje: 60; }
-            else if (score >= 340) { rango = 'B-'; color = '#00ccff'; porcentaje: 55; }
-            else if (score >= 306) { rango = 'C+'; color = '#ff9800'; porcentaje: 50; }
-            else if (score >= 272) { rango = 'C'; color = '#ff9800'; porcentaje: 45; }
-            else if (score >= 238) { rango = 'C-'; color = '#ff9800'; porcentaje: 40; }
-            else if (score >= 204) { rango = 'D+'; color = '#ff6600'; porcentaje: 35; }
-            else if (score >= 170) { rango = 'D'; color = '#ff6600'; porcentaje: 30; }
-            else if (score >= 136) { rango = 'D-'; color = '#ff6600'; porcentaje: 25; }
-            else if (score >= 102) { rango = 'F+'; color = '#ff3333'; porcentaje: 20; }
-            else if (score >= 68)  { rango = 'F'; color = '#ff3333'; porcentaje: 15; }
-            else if (score >= 34)  { rango = 'F-'; color = '#ff3333'; porcentaje: 10; }
-            else { rango = 'F-'; color = '#ff3333'; porcentaje: 5; }
+            if (score >= 646) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            else if (score >= 612) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
+            else if (score >= 578) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
+            else if (score >= 544) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
+            else if (score >= 510) { rango = 'A+'; color = '#4caf50'; porcentaje = 80; }
+            else if (score >= 476) { rango = 'A'; color = '#4caf50'; porcentaje = 75; }
+            else if (score >= 442) { rango = 'A-'; color = '#4caf50'; porcentaje = 70; }
+            else if (score >= 408) { rango = 'B+'; color = '#00ccff'; porcentaje = 65; }
+            else if (score >= 374) { rango = 'B'; color = '#00ccff'; porcentaje = 60; }
+            else if (score >= 340) { rango = 'B-'; color = '#00ccff'; porcentaje = 55; }
+            else if (score >= 306) { rango = 'C+'; color = '#ff9800'; porcentaje = 50; }
+            else if (score >= 272) { rango = 'C'; color = '#ff9800'; porcentaje = 45; }
+            else if (score >= 238) { rango = 'C-'; color = '#ff9800'; porcentaje = 40; }
+            else if (score >= 204) { rango = 'D+'; color = '#ff6600'; porcentaje = 35; }
+            else if (score >= 170) { rango = 'D'; color = '#ff6600'; porcentaje = 30; }
+            else if (score >= 136) { rango = 'D-'; color = '#ff6600'; porcentaje = 25; }
+            else if (score >= 102) { rango = 'F+'; color = '#ff3333'; porcentaje = 20; }
+            else if (score >= 68)  { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
+            else if (score >= 34)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
+            else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         } else {
             // Tabla estándar para otros mapas
-            if (score >= 554) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
-            else if (score >= 522) { rango = 'S+'; color = '#ffeb3b'; porcentaje: 95; }
-            else if (score >= 493) { rango = 'S'; color = '#ffeb3b'; porcentaje: 90; }
-            else if (score >= 464) { rango = 'S-'; color = '#ffeb3b'; porcentaje: 85; }
-            else if (score >= 435) { rango = 'A+'; color = '#4caf50'; porcentaje: 80; }
-            else if (score >= 406) { rango = 'A'; color = '#4caf50'; porcentaje: 75; }
-            else if (score >= 377) { rango = 'A-'; color = '#4caf50'; porcentaje: 70; }
-            else if (score >= 348) { rango = 'B+'; color = '#00ccff'; porcentaje: 65; }
-            else if (score >= 319) { rango = 'B'; color = '#00ccff'; porcentaje: 60; }
-            else if (score >= 290) { rango = 'B-'; color = '#00ccff'; porcentaje: 55; }
-            else if (score >= 261) { rango = 'C+'; color = '#ff9800'; porcentaje: 50; }
-            else if (score >= 232) { rango = 'C'; color = '#ff9800'; porcentaje: 45; }
-            else if (score >= 203) { rango = 'C-'; color = '#ff9800'; porcentaje: 40; }
-            else if (score >= 174) { rango = 'D+'; color = '#ff6600'; porcentaje: 35; }
-            else if (score >= 145) { rango = 'D'; color = '#ff6600'; porcentaje: 30; }
-            else if (score >= 116) { rango = 'D-'; color = '#ff6600'; porcentaje: 25; }
-            else if (score >= 87) { rango = 'F+'; color = '#ff3333'; porcentaje: 20; }
-            else if (score >= 58) { rango = 'F'; color = '#ff3333'; porcentaje: 15; }
-            else if (score >= 29) { rango = 'F-'; color = '#ff3333'; porcentaje: 10; }
-            else { rango = 'F-'; color = '#ff3333'; porcentaje: 5; }
+            if (score >= 554) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            else if (score >= 522) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
+            else if (score >= 493) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
+            else if (score >= 464) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
+            else if (score >= 435) { rango = 'A+'; color = '#4caf50'; porcentaje = 80; }
+            else if (score >= 406) { rango = 'A'; color = '#4caf50'; porcentaje = 75; }
+            else if (score >= 377) { rango = 'A-'; color = '#4caf50'; porcentaje = 70; }
+            else if (score >= 348) { rango = 'B+'; color = '#00ccff'; porcentaje = 65; }
+            else if (score >= 319) { rango = 'B'; color = '#00ccff'; porcentaje = 60; }
+            else if (score >= 290) { rango = 'B-'; color = '#00ccff'; porcentaje = 55; }
+            else if (score >= 261) { rango = 'C+'; color = '#ff9800'; porcentaje = 50; }
+            else if (score >= 232) { rango = 'C'; color = '#ff9800'; porcentaje = 45; }
+            else if (score >= 203) { rango = 'C-'; color = '#ff9800'; porcentaje = 40; }
+            else if (score >= 174) { rango = 'D+'; color = '#ff6600'; porcentaje = 35; }
+            else if (score >= 145) { rango = 'D'; color = '#ff6600'; porcentaje = 30; }
+            else if (score >= 116) { rango = 'D-'; color = '#ff6600'; porcentaje = 25; }
+            else if (score >= 87) { rango = 'F+'; color = '#ff3333'; porcentaje = 20; }
+            else if (score >= 58) { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
+            else if (score >= 29) { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
+            else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         }
 
         return {
