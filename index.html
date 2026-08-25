@@ -248,9 +248,9 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo se alinean los rangos y las estadísticas?</div>
+                <div class="faq-q">¿Cómo se calculan los rangos ahora?</div>
                 <div class="faq-a">
-                    La eficiencia se calcula ahora tomando como referencia directa el puntaje máximo alcanzado en el mapa, premiando el rendimiento óptimo y aplicando penalizaciones justas por muertes o excesos de tiempo.
+                    Se basan estrictamente en la tabla de puntajes exactos provista. Para Intruder se añadió la regla especial: 554+ pts, máximo 2 muertes y tiempo menor a 27:43 otorga automáticamente SS.
                 </div>
             </div>
         </div>
@@ -284,70 +284,74 @@
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function calcularEficienciaBalanceada(score, tiempoRealSec, tiempoLimiteMinutos, muertes, maxScoreMapa, esClasico = false) {
-        if (tiempoRealSec <= 0) tiempoRealSec = 60;
-        const minutosReal = tiempoRealSec / 60;
-        const tiempoLimiteSec = tiempoLimiteMinutos * 60;
+    // Evaluador de rangos basado estrictamente en tu tabla de puntuaciones
+    function evaluarRangoPorScore(score, muertes, tiempoSec, mapId) {
+        // Regla especial exclusiva para Intruder
+        if (mapId === 'intruder') {
+            const tiempoLimiteSS = 27 * 60 + 43; // 27:43 en segundos
+            if (score >= 554 && muertes <= 2 && tiempoSec < tiempoLimiteSS) {
+                return { rango: 'SS', color: '#ff00ff', porcentaje: 100 };
+            }
+        }
 
-        // Fórmula calibrada: Relación directa del score contra el puntaje máximo registrado
-        let ratioScore = maxScoreMapa > 0 ? (score / maxScoreMapa) : 1;
-        let ratioVelocidad = Math.max(0.2, 1 - (tiempoRealSec / tiempoLimiteSec));
-        
-        let eficienciaBase = (ratioScore * 75) + (ratioVelocidad * 25);
-        
-        // Penalización equilibrada por muertes
-        let penalizacionMuertes = muertes * (esClasico ? 3 : 8);
-
-        let eficienciaFinal = Math.round(eficienciaBase - penalizacionMuertes);
-        return Math.min(Math.max(eficienciaFinal, 0), 100);
-    }
-
-    function obtenerRangoYColor(porcentaje) {
+        // Tabla exacta proporcionada
         let rango = 'F-';
         let color = '#ff3333';
+        let porcentaje = 10;
 
-        if (porcentaje >= 95) { rango = 'SS'; color = '#ff00ff'; }
-        else if (porcentaje >= 90) { rango = 'S+'; color = '#ffeb3b'; }
-        else if (porcentaje >= 85) { rango = 'S'; color = '#ffeb3b'; }
-        else if (porcentaje >= 80) { rango = 'S-'; color = '#ffeb3b'; }
-        else if (porcentaje >= 75) { rango = 'A+'; color = '#4caf50'; }
-        else if (porcentaje >= 70) { rango = 'A'; color = '#4caf50'; }
-        else if (porcentaje >= 65) { rango = 'A-'; color = '#4caf50'; }
-        else if (porcentaje >= 60) { rango = 'B+'; color = '#00ccff'; }
-        else if (porcentaje >= 55) { rango = 'B'; color = '#00ccff'; }
-        else if (porcentaje >= 50) { rango = 'B-'; color = '#00ccff'; }
-        else if (porcentaje >= 45) { rango = 'C+'; color = '#ff9800'; }
-        else if (porcentaje >= 40) { rango = 'C'; color = '#ff9800'; }
-        else if (porcentaje >= 35) { rango = 'C-'; color = '#ff9800'; }
-        else if (porcentaje >= 30) { rango = 'D+'; color = '#ff6600'; }
-        else if (porcentaje >= 25) { rango = 'D'; color = '#ff6600'; }
-        else if (porcentaje >= 20) { rango = 'D-'; color = '#ff6600'; }
-        else if (porcentaje >= 10) { rango = 'F+'; color = '#ff3333'; }
-        else if (porcentaje >= 5) { rango = 'F'; color = '#ff3333'; }
-        else { rango = 'F-'; color = '#ff3333'; }
+        if (score >= 554) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+        else if (score >= 522) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
+        else if (score >= 493) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
+        else if (score >= 464) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
+        else if (score >= 435) { rango = 'A+'; color = '#4caf50'; porcentaje = 80; }
+        else if (score >= 406) { rango = 'A'; color = '#4caf50'; porcentaje = 75; }
+        else if (score >= 377) { rango = 'A-'; color = '#4caf50'; porcentaje = 70; }
+        else if (score >= 348) { rango = 'B+'; color = '#00ccff'; porcentaje = 65; }
+        else if (score >= 319) { rango = 'B'; color = '#00ccff'; porcentaje = 60; }
+        else if (score >= 290) { rango = 'B-'; color = '#00ccff'; porcentaje = 55; }
+        else if (score >= 261) { rango = 'C+'; color = '#ff9800'; porcentaje = 50; }
+        else if (score >= 232) { rango = 'C'; color = '#ff9800'; porcentaje = 45; }
+        else if (score >= 203) { rango = 'C-'; color = '#ff9800'; porcentaje = 40; }
+        else if (score >= 174) { rango = 'D+'; color = '#ff6600'; porcentaje = 35; }
+        else if (score >= 145) { rango = 'D'; color = '#ff6600'; porcentaje = 30; }
+        else if (score >= 116) { rango = 'D-'; color = '#ff6600'; porcentaje = 25; }
+        else if (score >= 87) { rango = 'F+'; color = '#ff3333'; porcentaje = 20; }
+        else if (score >= 58) { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
+        else if (score >= 29) { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
+        else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
 
-        return { porcentajeStr: Math.round(porcentaje) + '%', html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>` };
+        return {
+            porcentajeStr: porcentaje + '%',
+            html: `<span style="color: ${color}; font-weight: bold;">${rango}</span>`,
+            porcentajeNum: porcentaje
+        };
     }
 
-    function actualizarRequisitosMapa(mapId, maxScore, timelimit) {
+    function actualizarRequisitosMapa(mapId) {
         const reqContainer = document.getElementById(`${mapId}-reqs`);
         if (!reqContainer) return;
 
-        let targetSS = Math.round(maxScore * 1.02);
-        let targetS = Math.round(maxScore * 0.85);
-        let targetA = Math.round(maxScore * 0.70);
-        let targetB = Math.round(maxScore * 0.50);
-        let targetC = Math.round(maxScore * 0.30);
-        let targetD = Math.round(maxScore * 0.15);
-
-        reqContainer.innerHTML = `
-            <li><b>SS (Doble):</b> ${targetSS}+ pts | 0 Muertes | Tiempo &lt; ${Math.round(timelimit * 0.6)}m</li>
-            <li><b>S:</b> ${targetS}+ pts | Max 1 Muerte | Tiempo &lt; ${Math.round(timelimit * 0.75)}m</li>
-            <li><b>A:</b> ${targetA}+ pts | Max 2 Muertes | Dentro del límite</li>
-            <li><b>B:</b> ${targetB}+ pts | Max 4 Muertes | Dentro del límite</li>
-            <li><b>C / D:</b> ${targetC} - ${targetD} pts | Varios decesos</li>
-            <li><b>F:</b> Menor a ${targetD} pts o superado el tiempo</li>
-        `;
+        if (mapId === 'intruder') {
+            reqContainer.innerHTML = `
+                <li><b>SS:</b> 554+ pts | Máx 2 Muertes | Tiempo &lt; 27:43</li>
+                <li><b>S+:</b> 522+ pts | <b>S:</b> 493+ pts | <b>S-:</b> 464+ pts</li>
+                <li><b>A+:</b> 435+ pts | <b>A:</b> 406+ pts | <b>A-:</b> 377+ pts</li>
+                <li><b>B+:</b> 348+ pts | <b>B:</b> 319+ pts | <b>B-:</b> 290+ pts</li>
+                <li><b>C+:</b> 261+ pts | <b>C:</b> 232+ pts | <b>C-:</b> 203+ pts</li>
+                <li><b>D+:</b> 174+ pts | <b>D:</b> 145+ pts | <b>D-:</b> 116+ pts</li>
+                <li><b>F+:</b> 87+ pts | <b>F:</b> 58+ pts | <b>F-:</b> &lt; 29 pts</li>
+            `;
+        } else {
+            reqContainer.innerHTML = `
+                <li><b>SS:</b> 554+ pts</li>
+                <li><b>S+:</b> 522+ pts | <b>S:</b> 493+ pts | <b>S-:</b> 464+ pts</li>
+                <li><b>A+:</b> 435+ pts | <b>A:</b> 406+ pts | <b>A-:</b> 377+ pts</li>
+                <li><b>B+:</b> 348+ pts | <b>B:</b> 319+ pts | <b>B-:</b> 290+ pts</li>
+                <li><b>C+:</b> 261+ pts | <b>C:</b> 232+ pts | <b>C-:</b> 203+ pts</li>
+                <li><b>D+:</b> 174+ pts | <b>D:</b> 145+ pts | <b>D-:</b> 116+ pts</li>
+                <li><b>F+:</b> 87+ pts | <b>F:</b> 58+ pts | <b>F-:</b> &lt; 29 pts</li>
+            `;
+        }
     }
 
     function calcularRankings() {
@@ -355,17 +359,8 @@
         
         mapSubSections.forEach(mapSec => {
             const mapId = mapSec.getAttribute('id');
-            const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
-            const mode = mapSec.getAttribute('data-mode');
-            const esClasico = (mode === 'classic');
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
             
-            let maxScore = 100;
-            rows.forEach(row => {
-                const s = parseInt(row.querySelectorAll('td')[2].textContent) || 0;
-                if (s > maxScore) maxScore = s;
-            });
-
             let mapaData = rows.map(row => {
                 const cols = row.querySelectorAll('td');
                 const jugador = cols[1].textContent.trim();
@@ -374,17 +369,21 @@
                 const tiempoSec = timeToSeconds(tiempoStr);
                 const muertes = parseInt(cols[4].textContent) || 0;
 
-                const efBase = calcularEficienciaBalanceada(score, tiempoSec, timelimit, muertes, maxScore, esClasico);
+                const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
 
-                return { jugador, score, tiempoStr, tiempoSec, muertes, efBase, modo: mode };
+                return { 
+                    jugador, 
+                    score, 
+                    tiempoStr, 
+                    tiempoSec, 
+                    muertes, 
+                    eficiencia: evalRango.porcentajeStr, 
+                    rangoHTML: evalRango.html, 
+                    efNum: evalRango.porcentajeNum 
+                };
             });
 
             mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
-
-            mapaData = mapaData.map((item) => {
-                const evalRango = obtenerRangoYColor(item.efBase);
-                return { ...item, eficiencia: evalRango.porcentajeStr, rangoHTML: evalRango.html, efNum: item.efBase };
-            });
 
             const tbody = mapSec.querySelector('.map-table tbody');
             tbody.innerHTML = '';
@@ -401,15 +400,15 @@
                     </tr>`;
             });
 
-            actualizarRequisitosMapa(mapId, maxScore, timelimit);
+            actualizarRequisitosMapa(mapId);
         });
 
         // Insights específicos por mapa
-        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts. Requisito Doble SS dinámico: Superar 450+ pts con 0 muertes y menor a 35 min.`;
-        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts en Clásico. Requisito Doble SS dinámico: 335+ pts con 0 muertes en menos de 25 min.`;
-        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts (0 muertes). Requisito Doble SS dinámico: 920+ pts manteniendo un tiempo inferior a 25 min.`;
-        document.getElementById('yabma-insights').innerHTML = `<b>F X I</b> lidera con 864 pts en 59:00. Requisito Doble SS dinámico: 880+ pts sin decesos y menor a 60 min.`;
-        document.getElementById('abandoned-insights').innerHTML = `<b>F X I</b> lidera con 783 pts (0 muertes). Requisito Doble SS dinámico: 800+ pts en &lt;90 min bajo estricta cooperación.`;
+        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts. Requisito especial SS: 554+ pts, máximo 2 muertes y tiempo menor a 27:43. Si no, se evalúa estrictamente por score.`;
+        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts. Evaluado por la tabla estándar de rangos por score.`;
+        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts. Evaluado por la tabla estándar de rangos por score.`;
+        document.getElementById('yabma-insights').innerHTML = `<b>F X I</b> lidera con 864 pts. Evaluado por la tabla estándar de rangos por score.`;
+        document.getElementById('abandoned-insights').innerHTML = `<b>F X I</b> lidera con 783 pts. Evaluado por la tabla estándar de rangos por score.`;
 
         // Procesar tablas acumuladas con sumas individuales y promedio total real
         const procesarAcumuladoPorFiltro = (filtroModo = null) => {
@@ -419,15 +418,8 @@
                 const modoMapa = mapSec.getAttribute('data-mode');
                 if (filtroModo && modoMapa !== filtroModo) return;
 
-                const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
-                const esClasico = (modoMapa === 'classic');
+                const mapId = mapSec.getAttribute('id');
                 const rows = mapSec.querySelectorAll('.map-table tbody tr');
-                
-                let maxScore = 100;
-                rows.forEach(r => {
-                    const s = parseInt(r.querySelectorAll('td')[2].textContent) || 0;
-                    if (s > maxScore) maxScore = s;
-                });
 
                 rows.forEach(row => {
                     const cols = row.querySelectorAll('td');
@@ -436,7 +428,7 @@
                     const tiempoSec = timeToSeconds(cols[3].textContent.trim());
                     const muertes = parseInt(cols[4].textContent) || 0;
 
-                    const efNum = calcularEficienciaBalanceada(score, tiempoSec, timelimit, muertes, maxScore, esClasico);
+                    const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
 
                     if (!stats[jugador]) {
                         stats[jugador] = { score: 0, tiempoSec: 0, mapas: 0, muertes: 0, sumaEficiencias: 0 };
@@ -445,14 +437,16 @@
                     stats[jugador].tiempoSec += tiempoSec;
                     stats[jugador].mapas += 1;
                     stats[jugador].muertes += muertes;
-                    stats[jugador].sumaEficiencias += efNum;
+                    stats[jugador].sumaEficiencias += evalRango.porcentajeNum;
                 });
             });
 
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
                 const eficienciaPromedio = Math.round(data.sumaEficiencias / data.mapas);
-                const evalRango = obtenerRangoYColor(eficienciaPromedio);
+                
+                // Rango global basado en puntaje total acumulado promedio
+                const evalRangoGlobal = evaluarRangoPorScore(Math.round(data.score / data.mapas), 0, 0, '');
 
                 return {
                     jugador,
@@ -461,7 +455,7 @@
                     mapas: data.mapas,
                     muertes: data.muertes,
                     eficiencia: eficienciaPromedio + '%',
-                    rangoHTML: evalRango.html
+                    rangoHTML: evalRangoGlobal.html
                 };
             });
 
