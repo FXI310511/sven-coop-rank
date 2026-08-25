@@ -50,13 +50,14 @@
         td.player-name, td.data-num { color: var(--yellow-data); font-weight: 500; }
 
         .map-preview { width: 100%; max-height: 350px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; border: 2px solid var(--border-color); }
-        
-        .analysis-box { background: #152615; border: 1px solid #388e3c; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 0.9rem; line-height: 1.6; }
-        .analysis-box h4 { color: #ffeb3b; margin-top: 0; }
 
-        .requirements-box { background: #1b1b26; border: 1px solid #5c6bc0; padding: 15px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem; line-height: 1.5; }
-        .requirements-box h4 { color: #9fa8da; margin-top: 0; }
-        .requirements-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 10px; padding-left: 15px; }
+        .requirements-box { background: #152015; border: 1px solid #388e3c; padding: 15px; border-radius: 6px; margin-top: 20px; }
+        .requirements-box h4 { color: #ffeb3b; margin-top: 0; margin-bottom: 12px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .req-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+        .req-badge { background: #1b2e1b; border: 1px solid #2e6633; padding: 8px 10px; border-radius: 4px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+        .req-badge span { font-weight: bold; color: #4caf50; }
+        .req-badge.special { grid-column: 1 / -1; background: #231b2b; border-color: #8e24aa; color: #e1bee7; }
+        .req-badge.special span { color: #ba68c8; }
 
         .faq-item { margin-bottom: 25px; border-bottom: 1px solid #223822; padding-bottom: 15px; }
         .faq-q { font-size: 1.3rem; color: #4caf50; margin-bottom: 5px; }
@@ -85,7 +86,7 @@
             <p style="font-size: 0.85rem; color: #a8f0a8; margin-top: -5px;">* Promedio acumulado de eficiencia y rangos individuales por mapa.</p>
             <table id="tabla-general">
                 <thead>
-                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Tiempo Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango Global</th></tr>
+                    <tr><th>Pos</th><th>Jugador</th><th>Score Global</th><th>Time Left Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango Global</th></tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -111,19 +112,15 @@
                 <img src="https://img.atwiki.jp/svencoopwiki/attach/46/62/intruder.jpg" alt="Mapa Intruder" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Intruder <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Medium] (Límite: 60m)</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">33:14</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
-                        <tr><td class="data-num">2°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">33:14</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">444</td><td class="data-num">26:46</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">2°</td><td class="player-name">HAMGESA</td><td class="data-num">118</td><td class="data-num">26:46</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
-                <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico: Intruder</h4>
-                    <p id="intruder-insights">Cargando...</p>
-                </div>
                 <div class="requirements-box">
-                    <h4>📊 Requisitos Dinámicos de Rangos - Intruder</h4>
-                    <ul class="requirements-list" id="intruder-reqs"></ul>
+                    <h4>📊 Requisitos de Rangos - Intruder</h4>
+                    <div class="req-grid" id="intruder-reqs"></div>
                 </div>
             </div>
 
@@ -132,18 +129,14 @@
                 <img src="grunts2.png" alt="Mapa Grunts2" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Grunts2 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico - Easy] (Límite: 60m)</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">328</td><td class="data-num">24:11</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
-                <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico: Grunts2</h4>
-                    <p id="grunts2-insights">Cargando...</p>
-                </div>
                 <div class="requirements-box">
-                    <h4>📊 Requisitos Dinámicos de Rangos - Grunts2</h4>
-                    <ul class="requirements-list" id="grunts2-reqs"></ul>
+                    <h4>📊 Requisitos de Rangos - Grunts2</h4>
+                    <div class="req-grid" id="grunts2-reqs"></div>
                 </div>
             </div>
 
@@ -152,20 +145,16 @@
                 <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Easy] (Límite: 40m)</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">902</td><td class="data-num">23:49</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                         <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">232</td><td class="data-num">18:12</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
                         <tr><td class="data-num">3°</td><td class="player-name">MISTERIO</td><td class="data-num">119</td><td class="data-num">18:12</td><td class="data-num">6</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
-                <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico: Hplanet</h4>
-                    <p id="hplanet-insights">Cargando...</p>
-                </div>
                 <div class="requirements-box">
-                    <h4>📊 Requisitos Dinámicos de Rangos - Hplanet</h4>
-                    <ul class="requirements-list" id="hplanet-reqs"></ul>
+                    <h4>📊 Requisitos de Rangos - Hplanet</h4>
+                    <div class="req-grid" id="hplanet-reqs"></div>
                 </div>
             </div>
 
@@ -174,18 +163,14 @@
                 <img src="yabma.jpg" alt="Mapa Yabma" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Yabma <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Medium] (Límite: 99m)</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">864</td><td class="data-num">59:00</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
-                <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico: Yabma</h4>
-                    <p id="yabma-insights">Cargando...</p>
-                </div>
                 <div class="requirements-box">
-                    <h4>📊 Requisitos Dinámicos de Rangos - Yabma</h4>
-                    <ul class="requirements-list" id="yabma-reqs"></ul>
+                    <h4>📊 Requisitos de Rangos - Yabma</h4>
+                    <div class="req-grid" id="yabma-reqs"></div>
                 </div>
             </div>
 
@@ -194,19 +179,15 @@
                 <img src="abandoned.jpg" alt="Mapa Abandoned" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
                 <h3 style="color: #4caf50;">Estadísticas - Abandoned <span style="color: #ba68c8; font-size: 0.9rem;">[Co-op / Hard] (Límite: 200m)</span></h3>
                 <table class="map-table">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">783</td><td class="data-num">84:29</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                         <tr><td class="data-num">2°</td><td class="player-name">thiagolelismo</td><td class="data-num">249</td><td class="data-num">35:21</td><td class="data-num">1</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
-                <div class="analysis-box">
-                    <h4>🎯 Análisis Táctico: Abandoned</h4>
-                    <p id="abandoned-insights">Cargando...</p>
-                </div>
                 <div class="requirements-box">
-                    <h4>📊 Requisitos Dinámicos de Rangos - Abandoned</h4>
-                    <ul class="requirements-list" id="abandoned-reqs"></ul>
+                    <h4>📊 Requisitos de Rangos - Abandoned</h4>
+                    <div class="req-grid" id="abandoned-reqs"></div>
                 </div>
             </div>
         </div>
@@ -222,7 +203,7 @@
             <div id="survival-mode" class="sub-section active">
                 <h3 style="color: #4caf50;">Ranking Survival</h3>
                 <table id="tabla-survival">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -230,7 +211,7 @@
             <div id="classic-mode" class="sub-section">
                 <h3 style="color: #4caf50;">Ranking Clásico</h3>
                 <table id="tabla-classic">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -238,7 +219,7 @@
             <div id="coop-mode" class="sub-section">
                 <h3 style="color: #4caf50;">Ranking Co-op</h3>
                 <table id="tabla-coop">
-                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
+                    <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left Total</th><th>Mapas</th><th>Muertes</th><th>Eficiencia Promedio</th><th>Rango</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -248,9 +229,9 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo se calculan los rangos ahora?</div>
+                <div class="faq-q">¿Cómo se calculan los rangos?</div>
                 <div class="faq-a">
-                    Se basan estrictamente en la tabla de puntajes exactos provista. Para Intruder se añadió la regla especial: 554+ pts, máximo 2 muertes y tiempo menor a 27:43 otorga automáticamente SS.
+                    Se rigen estrictamente por los puntajes exactos proporcionados. En el caso de Intruder, existe una regla especial para la SS: requiere 554+ puntos, máximo 2 muertes y un Time Left menor a 27:43.
                 </div>
             </div>
         </div>
@@ -286,7 +267,6 @@
 
     // Evaluador de rangos basado estrictamente en tu tabla de puntuaciones
     function evaluarRangoPorScore(score, muertes, tiempoSec, mapId) {
-        // Regla especial exclusiva para Intruder
         if (mapId === 'intruder') {
             const tiempoLimiteSS = 27 * 60 + 43; // 27:43 en segundos
             if (score >= 554 && muertes <= 2 && tiempoSec < tiempoLimiteSS) {
@@ -294,7 +274,6 @@
             }
         }
 
-        // Tabla exacta proporcionada
         let rango = 'F-';
         let color = '#ff3333';
         let porcentaje = 10;
@@ -331,27 +310,25 @@
         const reqContainer = document.getElementById(`${mapId}-reqs`);
         if (!reqContainer) return;
 
+        let html = '';
         if (mapId === 'intruder') {
-            reqContainer.innerHTML = `
-                <li><b>SS:</b> 554+ pts | Máx 2 Muertes | Tiempo &lt; 27:43</li>
-                <li><b>S+:</b> 522+ pts | <b>S:</b> 493+ pts | <b>S-:</b> 464+ pts</li>
-                <li><b>A+:</b> 435+ pts | <b>A:</b> 406+ pts | <b>A-:</b> 377+ pts</li>
-                <li><b>B+:</b> 348+ pts | <b>B:</b> 319+ pts | <b>B-:</b> 290+ pts</li>
-                <li><b>C+:</b> 261+ pts | <b>C:</b> 232+ pts | <b>C-:</b> 203+ pts</li>
-                <li><b>D+:</b> 174+ pts | <b>D:</b> 145+ pts | <b>D-:</b> 116+ pts</li>
-                <li><b>F+:</b> 87+ pts | <b>F:</b> 58+ pts | <b>F-:</b> &lt; 29 pts</li>
-            `;
-        } else {
-            reqContainer.innerHTML = `
-                <li><b>SS:</b> 554+ pts</li>
-                <li><b>S+:</b> 522+ pts | <b>S:</b> 493+ pts | <b>S-:</b> 464+ pts</li>
-                <li><b>A+:</b> 435+ pts | <b>A:</b> 406+ pts | <b>A-:</b> 377+ pts</li>
-                <li><b>B+:</b> 348+ pts | <b>B:</b> 319+ pts | <b>B-:</b> 290+ pts</li>
-                <li><b>C+:</b> 261+ pts | <b>C:</b> 232+ pts | <b>C-:</b> 203+ pts</li>
-                <li><b>D+:</b> 174+ pts | <b>D:</b> 145+ pts | <b>D-:</b> 116+ pts</li>
-                <li><b>F+:</b> 87+ pts | <b>F:</b> 58+ pts | <b>F-:</b> &lt; 29 pts</li>
-            `;
+            html += `<div class="req-badge special">Condición SS: <span>554+ pts | Max 2 muertes | Time Left &lt; 27:43</span></div>`;
         }
+
+        const dataRequisitos = [
+            { r: 'SS', p: '554+' }, { r: 'S+', p: '522+' }, { r: 'S', p: '493+' }, { r: 'S-', p: '464+' },
+            { r: 'A+', p: '435+' }, { r: 'A', p: '406+' }, { r: 'A-', p: '377+' },
+            { r: 'B+', p: '348+' }, { r: 'B', p: '319+' }, { r: 'B-', p: '290+' },
+            { r: 'C+', p: '261+' }, { r: 'C', p: '232+' }, { r: 'C-', p: '203+' },
+            { r: 'D+', p: '174+' }, { r: 'D', p: '145+' }, { r: 'D-', p: '116+' },
+            { r: 'F+', p: '87+' },  { r: 'F', p: '58+' },  { r: 'F-', p: '&lt; 29' }
+        ];
+
+        dataRequisitos.forEach(item => {
+            html += `<div class="req-badge">${item.r} <span>${item.p} pts</span></div>`;
+        });
+
+        reqContainer.innerHTML = html;
     }
 
     function calcularRankings() {
@@ -403,14 +380,6 @@
             actualizarRequisitosMapa(mapId);
         });
 
-        // Insights específicos por mapa
-        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts. Requisito especial SS: 554+ pts, máximo 2 muertes y tiempo menor a 27:43. Si no, se evalúa estrictamente por score.`;
-        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts. Evaluado por la tabla estándar de rangos por score.`;
-        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts. Evaluado por la tabla estándar de rangos por score.`;
-        document.getElementById('yabma-insights').innerHTML = `<b>F X I</b> lidera con 864 pts. Evaluado por la tabla estándar de rangos por score.`;
-        document.getElementById('abandoned-insights').innerHTML = `<b>F X I</b> lidera con 783 pts. Evaluado por la tabla estándar de rangos por score.`;
-
-        // Procesar tablas acumuladas con sumas individuales y promedio total real
         const procesarAcumuladoPorFiltro = (filtroModo = null) => {
             const stats = {};
 
@@ -444,8 +413,6 @@
             const lista = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
                 const eficienciaPromedio = Math.round(data.sumaEficiencias / data.mapas);
-                
-                // Rango global basado en puntaje total acumulado promedio
                 const evalRangoGlobal = evaluarRangoPorScore(Math.round(data.score / data.mapas), 0, 0, '');
 
                 return {
