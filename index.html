@@ -133,11 +133,10 @@
                 </div>
             </div>
 
-            <!-- HPLANET (Con análisis específico Survival / Easy / 40m) -->
             <div id="hplanet" class="sub-section" data-mode="survival" data-timelimit="40">
                 <img src="hplanet.png" alt="Mapa Hplanet" class="map-preview">
                 <h3 style="color: #4caf50;">Estadísticas - Hplanet <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Easy] (Límite: 40m)</span></h3>
-                <table class="map-table" id="table-hplanet">
+                <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">902</td><td class="data-num">23:49</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
@@ -147,19 +146,24 @@
                 </table>
                 <div class="analysis-box">
                     <h4>🎯 Análisis Táctico Especial: Hplanet (Survival / Easy)</h4>
-                    <p id="hplanet-insights">Calculando estimación para Doble SS y rendimiento...</p>
+                    <p id="hplanet-insights">Cargando...</p>
                 </div>
             </div>
 
+            <!-- YABMA (Con análisis específico Survival / Medium / 99m) -->
             <div id="yabma" class="sub-section" data-mode="survival" data-timelimit="99">
-                <img src="yabma.jpg" alt="Mapa Yabma" class="map-preview">
-                <h3 style="color: #4caf50;">Estadísticas - Yabma <span style="color: #00ccff; font-size: 0.9rem;">[Survival] (Límite: 99m)</span></h3>
-                <table class="map-table">
+                <img src="yabma.jpg" alt="Mapa Yabma" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
+                <h3 style="color: #4caf50;">Estadísticas - Yabma <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Medium] (Límite: 99m)</span></h3>
+                <table class="map-table" id="table-yabma">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Tiempo</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
                         <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">864</td><td class="data-num">59:00</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
                     </tbody>
                 </table>
+                <div class="analysis-box">
+                    <h4>🎯 Análisis Táctico Especial: Yabma (Survival / Medium)</h4>
+                    <p id="yabma-insights">Calculando estimación para Doble SS y rendimiento...</p>
+                </div>
             </div>
 
             <div id="abandoned" class="sub-section" data-mode="coop" data-timelimit="200">
@@ -212,9 +216,9 @@
         <div id="faq" class="section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #4caf50;">❓ Preguntas frecuentes</h2>
             <div class="faq-item">
-                <div class="faq-q">¿Cómo se evalúa el modo Survival en Hplanet?</div>
+                <div class="faq-q">¿Cómo se evalúa el modo Survival en Yabma?</div>
                 <div class="faq-a">
-                    Al ser un mapa de dificultad <b>Easy</b> con duración media de 40 minutos bajo reglas estrictas de <b>Survival</b> (checkpoint dinámico / imposibilidad de revivir libremente), las muertes se penalizan de forma severa. Se busca un equilibrio perfecto entre una alta recolección de puntos (como los 902 de F X I) y un tiempo de completado ágil.
+                    Tratándose de un mapa de dificultad <b>Medium</b>, con una duración larga de <b>99 minutos</b> y bajo las estrictas reglas de <b>Survival</b> (sin respawns infinitos y con checkpoints limitados), las muertes impactan fuertemente en la eficiencia si no se compensan con una limpieza exhaustiva y control temporal del mapa.
                 </div>
             </div>
         </div>
@@ -253,15 +257,15 @@
         const minutosReal = tiempoRealSec / 60;
         const tiempoLimiteSec = tiempoLimiteMinutos * 60;
 
-        let factorScore = Math.min((score / 900) * 100, 100);
+        let factorScore = Math.min((score / 1000) * 100, 100);
         let ratioVelocidad = Math.max(0, (tiempoLimiteSec - tiempoRealSec) / tiempoLimiteSec);
         let factorTiempo = ratioVelocidad * 100;
         let puntosPorMinuto = score / minutosReal;
-        let factorProductividad = Math.min((puntosPorMinuto / 30) * 100, 100);
+        let factorProductividad = Math.min((puntosPorMinuto / 25) * 100, 100);
 
         let eficienciaBase = (factorScore * 0.333) + (factorTiempo * 0.333) + (factorProductividad * 0.333);
         
-        let penalizacionMuertes = muertes * (esClasico ? 2 : 10); // Severo en Survival
+        let penalizacionMuertes = muertes * (esClasico ? 2 : 10);
         let penalizacionDemora = minutosReal > (tiempoLimiteMinutos * 0.8) ? 15 : 0;
 
         let eficienciaFinal = Math.round(eficienciaBase - penalizacionMuertes - penalizacionDemora);
@@ -322,7 +326,7 @@
         const mapSubSections = document.querySelectorAll('#mapas .sub-section');
         
         mapSubSections.forEach(mapSec => {
-            const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 40;
+            const timelimit = parseInt(mapSec.getAttribute('data-timelimit')) || 60;
             const mode = mapSec.getAttribute('data-mode');
             const esClasico = (mode === 'classic');
             const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
@@ -375,26 +379,27 @@
         });
 
         // Insights previos
-        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts y eficiencia sólida en Survival Medium. Requisito Doble SS: 0 muertes, >750 pts y <25 min.`;
-        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts en Clásico Easy. Requisito Doble SS: 600+ pts, <18 min y alta agresividad por respawns.`;
+        document.getElementById('intruder-insights').innerHTML = `<b>F X I</b> lidera con 444 pts en 33:14 (Survival Medium). Requisito Doble SS: 0 muertes, >750 pts y <25 min.`;
+        document.getElementById('grunts2-insights').innerHTML = `<b>F X I</b> lidera con 328 pts en Clásico Easy. Requisito Doble SS: 600+ pts, <18 min y alta agresividad.`;
+        document.getElementById('hplanet-insights').innerHTML = `<b>F X I</b> lidera con 902 pts (0 muertes) en Survival Easy. Requisito Doble SS cumplido con alta eficiencia.`;
 
-        // Insights específicos para Hplanet
-        let hplanetDataText = '';
-        const rowsHplanet = document.querySelectorAll('#hplanet .map-table tbody tr');
-        rowsHplanet.forEach(r => {
+        // Insights específicos para Yabma
+        let yabmaDataText = '';
+        const rowsYabma = document.querySelectorAll('#yabma .map-table tbody tr');
+        rowsYabma.forEach(r => {
             const cols = r.querySelectorAll('td');
-            hplanetDataText += `• <b>${cols[1].textContent.trim()}</b>: ${cols[2].textContent} pts, ${cols[3].textContent}, ${cols[4].textContent} muerte(s) -> Eficiencia: ${cols[5].textContent} (${cols[6].innerHTML})<br>`;
+            yabmaDataText += `• <b>${cols[1].textContent.trim()}</b>: ${cols[2].textContent} pts, ${cols[3].textContent}, ${cols[4].textContent} muerte(s) -> Eficiencia: ${cols[5].textContent} (${cols[6].innerHTML})<br>`;
         });
 
-        const hplanetInsightsHtml = `
-            <b>Estado Actual en Hplanet (Survival / Easy / 40 min):</b><br>
-            ${hplanetDataText}<br>
-            ⭐ <b>¿Qué se necesita para alcanzar una Doble SS en Hplanet?</b><br>
-            1. <b>Supervivencia Absoluta (0 Muertes):</b> Dado que es modo Survival estricto sin respawns libres, las muertes (como la de thiagolelismo o las 6 de MISTERIO) aplican penalizaciones severas que truncan las aspiraciones a rango máximo.<br>
-            2. <b>Maximización de Puntos:</b> Mantener o superar la marca estelar de <b>900+ puntos</b> (limpiando cada sector y enemigo antes de activar el siguiente checkpoint o salida).<br>
-            3. <b>Optimización Temporal:</b> Concluir la misión por debajo de los <b>20 minutos</b> (manteniendo un ritmo superior a 40 puntos por minuto de partida). F X I estuvo cerca en tiempo (23:49) y cumplió el requisito vital de 0 muertes, logrando un desempeño sobresaliente.
+        const yabmaInsightsHtml = `
+            <b>Estado Actual en Yabma (Survival / Medium / 99 min):</b><br>
+            ${yabmaDataText}<br>
+            ⭐ <b>¿Qué se necesita para alcanzar una Doble SS en Yabma?</b><br>
+            1. <b>Control de Supervivencia Impecable (0 Muertes):</b> En este mapa de dificultad Medium y de largo aliento (cerca de una hora de incursión como los 59:00 de F X I), mantener un registro perfecto de cero muertes es obligatorio para evitar castigos en el cálculo de eficiencia.<br>
+            2. <b>Maximización del Score Total:</b> Superar la barrera de los <b>950 - 1000 puntos</b>, explorando a fondo las rutas para no dejar enemigos vivos en las vastas zonas del mapa.<br>
+            3. <b>Optimización del Tiempo Límite:</b> Aunque el límite es de 99 minutos, para rozar la excelencia de una Doble SS se requiere completar el trayecto principal en menos de <b>50 minutos</b> o sostener una tasa constante superior a <b>20-25 puntos por minuto</b> sin ralentizar el ritmo del equipo o del solo play.
         `;
-        document.getElementById('hplanet-insights').innerHTML = hplanetInsightsHtml;
+        document.getElementById('yabma-insights').innerHTML = yabmaInsightsHtml;
 
         const procesarAcumulado = (filtroModo = null) => {
             const stats = {};
