@@ -571,7 +571,14 @@
 
             let listaGlobal = Object.keys(stats).map(jugador => {
                 const data = stats[jugador];
-                const promedioEf = Math.round(data.efSum / data.mapasCount);
+                
+                // Aplicar porcentajes manuales específicos solicitados
+                let promedioEf = Math.round(data.efSum / data.mapasCount);
+                if (jugador === 'F X I') {
+                    if (idTabla === 'tabla-general') promedioEf = 92;
+                    else if (idTabla === 'tabla-survival') promedioEf = 88;
+                    else if (idTabla === 'tabla-coop') promedioEf = 95;
+                }
                 
                 let rangoGlobal = 'F-';
                 let colorG = '#ff3333';
