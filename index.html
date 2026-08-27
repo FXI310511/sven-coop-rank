@@ -54,7 +54,7 @@
         .requirements-box { background: #152015; border: 1px solid #388e3c; padding: 15px; border-radius: 6px; margin-top: 20px; }
         .requirements-box h4 { color: #ffeb3b; margin-top: 0; margin-bottom: 12px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .req-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
-        .req-badge { background: #1b2e1b; border: 1px solid #2e6633; padding: 8px 10px; border-radius: 4px; font-size: 0.85rem; display: flex; justify-space-between; align-items: center; }
+        .req-badge { background: #1b2e1b; border: 1px solid #2e6633; padding: 8px 10px; border-radius: 4px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
         .req-badge span { font-weight: bold; color: #4caf50; }
         .req-badge.special { grid-column: 1 / -1; background: #231b2b; border-color: #8e24aa; color: #e1bee7; }
         .req-badge.special span { color: #ba68c8; }
@@ -515,6 +515,7 @@
         }
 
         dataRequisitos.forEach(item => {
+            // Se agregó un espacio manual entre ${item.r} y <span>
             html += `<div class="req-badge">${item.r} <span>${item.p} pts</span></div>`;
         });
 
