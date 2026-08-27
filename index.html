@@ -165,9 +165,13 @@
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
-                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">864</td><td class="data-num">59:00</td><td class="data-num">0</td><td class="data-num">-</td><td>-</td></tr>
+                        <tr><td class="data-num">1°</td><td class="player-name">F X I</td><td class="data-num">864</td><td class="data-num">40:00</td><td class="data-num">0</td><td class="data-num">95%</td><td><span style="color: #ffeb3b; font-weight: bold;">S+</span></td></tr>
                     </tbody>
                 </table>
+                <div class="requirements-box">
+                    <h4>📊 Requisitos de Rangos - Yabma</h4>
+                    <div class="req-grid" id="yabma-reqs"></div>
+                </div>
             </div>
 
             <!-- Abandoned -->
@@ -283,6 +287,13 @@
             }
         }
 
+        if (mapId === 'yabma') {
+            const tiempoLimiteSS = 70 * 60 + 3;
+            if (score >= 565 && muertes <= 4 && tiempoSec < tiempoLimiteSS) {
+                return { rango: 'SS', color: '#ff00ff', porcentaje: 100 };
+            }
+        }
+
         if (mapId === 'abandoned') {
             const tiempoLimiteSS = 139 * 60 + 42;
             if (score >= 441 && muertes <= 3 && tiempoSec < tiempoLimiteSS) {
@@ -357,6 +368,27 @@
             else if (score >= 79)  { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
             else if (score >= 40)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
             else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
+        } else if (mapId === 'yabma') {
+            if (score >= 565) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
+            else if (score >= 535) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
+            else if (score >= 506) { rango = 'S'; color = '#ffeb3b'; porcentaje = 90; }
+            else if (score >= 476) { rango = 'S-'; color = '#ffeb3b'; porcentaje = 85; }
+            else if (score >= 446) { rango = 'A+'; color = '#4caf50'; porcentaje = 80; }
+            else if (score >= 416) { rango = 'A'; color = '#4caf50'; porcentaje = 75; }
+            else if (score >= 387) { rango = 'A-'; color = '#4caf50'; porcentaje = 70; }
+            else if (score >= 357) { rango = 'B+'; color = '#00ccff'; porcentaje = 65; }
+            else if (score >= 327) { rango = 'B'; color = '#00ccff'; porcentaje = 60; }
+            else if (score >= 297) { rango = 'B-'; color = '#00ccff'; porcentaje = 55; }
+            else if (score >= 268) { rango = 'C+'; color = '#ff9800'; porcentaje = 50; }
+            else if (score >= 238) { rango = 'C'; color = '#ff9800'; porcentaje = 45; }
+            else if (score >= 208) { rango = 'C-'; color = '#ff9800'; porcentaje = 40; }
+            else if (score >= 178) { rango = 'D+'; color = '#ff6600'; porcentaje = 35; }
+            else if (score >= 149) { rango = 'D'; color = '#ff6600'; porcentaje = 30; }
+            else if (score >= 119) { rango = 'D-'; color = '#ff6600'; porcentaje = 25; }
+            else if (score >= 89)  { rango = 'F+'; color = '#ff3333'; porcentaje = 20; }
+            else if (score >= 59)  { rango = 'F'; color = '#ff3333'; porcentaje = 15; }
+            else if (score >= 30)  { rango = 'F-'; color = '#ff3333'; porcentaje = 10; }
+            else { rango = 'F-'; color = '#ff3333'; porcentaje = 5; }
         } else if (mapId === 'abandoned') {
             if (score >= 441) { rango = 'SS'; color = '#ff00ff'; porcentaje = 100; }
             else if (score >= 418) { rango = 'S+'; color = '#ffeb3b'; porcentaje = 95; }
@@ -419,6 +451,8 @@
             html += `<div class="req-badge special">Condición SS: <span>243+ pts | Max 2 muertes | Time Left &lt; 32:37</span></div>`;
         } else if (mapId === 'hplanet') {
             html += `<div class="req-badge special">Condición SS: <span>751+ pts | Max 0 muertes | Time Left &lt; 21:40</span></div>`;
+        } else if (mapId === 'yabma') {
+            html += `<div class="req-badge special">Condición SS: <span>565+ pts | Max 4 muertes | Time Left &lt; 70:03</span></div>`;
         } else if (mapId === 'abandoned') {
             html += `<div class="req-badge special">Condición SS: <span>441+ pts | Max 3 muertes | Time Left &lt; 139:42</span></div>`;
         }
@@ -451,6 +485,15 @@
                 { r: 'D+', p: '237+' }, { r: 'D', p: '198+' }, { r: 'D-', p: '158+' },
                 { r: 'F+', p: '119+' }, { r: 'F', p: '79+' },  { r: 'F-', p: '40+' }
             ];
+        } else if (mapId === 'yabma') {
+            dataRequisitos = [
+                { r: 'SS', p: '565+' }, { r: 'S+', p: '535+' }, { r: 'S', p: '506+' }, { r: 'S-', p: '476+' },
+                { r: 'A+', p: '446+' }, { r: 'A', p: '416+' }, { r: 'A-', p: '387+' },
+                { r: 'B+', p: '357+' }, { r: 'B', p: '327+' }, { r: 'B-', p: '297+' },
+                { r: 'C+', p: '268+' }, { r: 'C', p: '238+' }, { r: 'C-', p: '208+' },
+                { r: 'D+', p: '178+' }, { r: 'D', p: '149+' }, { r: 'D-', p: '119+' },
+                { r: 'F+', p: '89+' },  { r: 'F', p: '59+' },  { r: 'F-', p: '30+' }
+            ];
         } else if (mapId === 'abandoned') {
             dataRequisitos = [
                 { r: 'SS', p: '441+' }, { r: 'S+', p: '418+' }, { r: 'S', p: '395+' }, { r: 'S-', p: '371+' },
@@ -472,174 +515,40 @@
         }
 
         dataRequisitos.forEach(item => {
-            html += `<div class="req-badge">${item.r} <span>${item.p} pts</span></div>`;
+            html += `<div class="req-badge">${item.r} <span>${item.p}</span></div>`;
         });
 
         reqContainer.innerHTML = html;
     }
 
-    function calcularRankings() {
-        const mapSubSections = document.querySelectorAll('#mapas .sub-section');
-        
-        mapSubSections.forEach(mapSec => {
-            const mapId = mapSec.getAttribute('id');
-            const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
-            
-            let mapaData = rows.map(row => {
-                const cols = row.querySelectorAll('td');
-                const jugador = cols[1].textContent.trim();
-                const score = parseInt(cols[2].textContent) || 0;
-                const tiempoStr = cols[3].textContent.trim();
-                const tiempoSec = timeToSeconds(tiempoStr);
-                const muertes = parseInt(cols[4].textContent) || 0;
-
-                let eficienciaStr = cols[5].textContent.trim();
-                let rangoHTML = cols[6].innerHTML.trim();
-                let efNum = 0;
-
-                if (eficienciaStr !== '-' && eficienciaStr !== '') {
-                    efNum = parseInt(eficienciaStr);
-                } else {
-                    const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
-                    eficienciaStr = evalRango.porcentajeStr;
-                    rangoHTML = evalRango.html;
-                    efNum = evalRango.porcentajeNum;
-                }
-
-                return { 
-                    jugador, 
-                    score, 
-                    tiempoStr, 
-                    tiempoSec, 
-                    muertes, 
-                    eficiencia: eficienciaStr, 
-                    rangoHTML: rangoHTML, 
-                    efNum: efNum 
-                };
-            });
-
-            mapaData.sort((a, b) => b.score - a.score || a.muertes - b.muertes);
-
-            const tbody = mapSec.querySelector('.map-table tbody');
-            tbody.innerHTML = '';
-            mapaData.forEach((item, index) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="data-num">${index + 1}°</td>
-                        <td class="player-name">${item.jugador}</td>
-                        <td class="data-num">${item.score}</td>
-                        <td class="data-num">${item.tiempoStr}</td>
-                        <td class="data-num">${item.muertes}</td>
-                        <td class="data-num">${item.eficiencia}</td>
-                        <td>${item.rangoHTML}</td>
-                    </tr>`;
-            });
-
+    // Inicializar al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+        ['intruder', 'grunts2', 'hplanet', 'yabma', 'abandoned'].forEach(mapId => {
             actualizarRequisitosMapa(mapId);
         });
 
-        const procesarAcumuladoPorFiltro = (filtroModo = null, idTabla) => {
-            const stats = {};
+        // Procesar tablas de mapas
+        document.querySelectorAll('.map-table').forEach(table => {
+            const mapId = table.closest('.sub-section').id;
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const score = parseInt(row.cells[2].innerText);
+                const timeStr = row.cells[3].innerText;
+                const timeSec = timeToSeconds(timeStr);
+                const muertes = parseInt(row.cells[4].innerText);
 
-            mapSubSections.forEach(mapSec => {
-                const modoMapa = mapSec.getAttribute('data-mode');
-                if (filtroModo && modoMapa !== filtroModo) return;
-
-                const mapId = mapSec.getAttribute('id');
-                const rows = Array.from(mapSec.querySelectorAll('.map-table tbody tr'));
-
-                rows.forEach(row => {
-                    const cols = row.querySelectorAll('td');
-                    const jugador = cols[1].textContent.trim();
-                    const score = parseInt(cols[2].textContent) || 0;
-                    const tiempoStr = cols[3].textContent.trim();
-                    const tiempoSec = timeToSeconds(tiempoStr);
-                    const muertes = parseInt(cols[4].textContent) || 0;
-                    
-                    const evalRango = evaluarRangoPorScore(score, muertes, tiempoSec, mapId);
-
-                    if (!stats[jugador]) {
-                        stats[jugador] = { scoreTotal: 0, tiempoSecTotal: 0, mapasCount: 0, muertesTotal: 0, efSum: 0 };
-                    }
-                    stats[jugador].scoreTotal += score;
-                    stats[jugador].tiempoSecTotal += tiempoSec;
-                    stats[jugador].mapasCount += 1;
-                    stats[jugador].muertesTotal += muertes;
-                    stats[jugador].efSum += evalRango.porcentajeNum;
-                });
-            });
-
-            let listaGlobal = Object.keys(stats).map(jugador => {
-                const data = stats[jugador];
+                const res = evaluarRangoPorScore(score, muertes, timeSec, mapId);
                 
-                let promedioEf = Math.round(data.efSum / data.mapasCount);
-                if (jugador === 'F X I') {
-                    if (idTabla === 'tabla-general') promedioEf = 92;
-                    else if (idTabla === 'tabla-survival') promedioEf = 88;
-                    else if (idTabla === 'tabla-coop') promedioEf = 95;
+                // Si la celda de eficiencia está vacía o '-', rellenarla si corresponde
+                if (row.cells[5].innerText === '-' && res.porcentajeStr) {
+                    // Opcional: row.cells[5].innerText = res.porcentajeStr;
                 }
-                
-                let rangoGlobal = 'F-';
-                let colorG = '#ff3333';
-                if (promedioEf >= 100) { rangoGlobal = 'SS'; colorG = '#ff00ff'; }
-                else if (promedioEf >= 95) { rangoGlobal = 'S+'; colorG = '#ffeb3b'; }
-                else if (promedioEf >= 90) { rangoGlobal = 'S'; colorG = '#ffeb3b'; }
-                else if (promedioEf >= 85) { rangoGlobal = 'S-'; colorG = '#ffeb3b'; }
-                else if (promedioEf >= 80) { rangoGlobal = 'A+'; colorG = '#4caf50'; }
-                else if (promedioEf >= 75) { rangoGlobal = 'A'; colorG = '#4caf50'; }
-                else if (promedioEf >= 70) { rangoGlobal = 'A-'; colorG = '#4caf50'; }
-                else if (promedioEf >= 65) { rangoGlobal = 'B+'; colorG = '#00ccff'; }
-                else if (promedioEf >= 60) { rangoGlobal = 'B'; colorG = '#00ccff'; }
-                else if (promedioEf >= 55) { rangoGlobal = 'B-'; colorG = '#00ccff'; }
-                else if (promedioEf >= 50) { rangoGlobal = 'C+'; colorG = '#ff9800'; }
-                else if (promedioEf >= 45) { rangoGlobal = 'C'; colorG = '#ff9800'; }
-                else if (promedioEf >= 40) { rangoGlobal = 'C-'; colorG = '#ff9800'; }
-                else if (promedioEf >= 35) { rangoGlobal = 'D+'; colorG = '#ff6600'; }
-                else if (promedioEf >= 30) { rangoGlobal = 'D'; colorG = '#ff6600'; }
-                else if (promedioEf >= 25) { rangoGlobal = 'D-'; colorG = '#ff6600'; }
-                else if (promedioEf >= 20) { rangoGlobal = 'F+'; colorG = '#ff3333'; }
-                else if (promedioEf >= 15) { rangoGlobal = 'F'; colorG = '#ff3333'; }
-
-                return {
-                    jugador,
-                    scoreTotal: data.scoreTotal,
-                    tiempoStrTotal: secondsToTime(data.tiempoSecTotal),
-                    mapasCount: data.mapasCount,
-                    muertesTotal: data.muertesTotal,
-                    promedioEfStr: promedioEf + '%',
-                    rangoGlobalHTML: `<span style="color: ${colorG}; font-weight: bold;">${rangoGlobal}</span>`,
-                    scoreSort: data.scoreTotal
-                };
+                if (row.cells[6].innerText === '-' || row.cells[6].innerHTML === '') {
+                    row.cells[6].innerHTML = res.html;
+                }
             });
-
-            listaGlobal.sort((a, b) => b.scoreSort - a.scoreSort);
-
-            const tablaTbody = document.querySelector(`#${idTabla} tbody`);
-            if (tablaTbody) {
-                tablaTbody.innerHTML = '';
-                listaGlobal.forEach((item, index) => {
-                    tablaTbody.innerHTML += `
-                        <tr>
-                            <td class="data-num">${index + 1}°</td>
-                            <td class="player-name">${item.jugador}</td>
-                            <td class="data-num">${item.scoreTotal}</td>
-                            <td class="data-num">${item.tiempoStrTotal}</td>
-                            <td class="data-num">${item.mapasCount}</td>
-                            <td class="data-num">${item.muertesTotal}</td>
-                            <td class="data-num">${item.promedioEfStr}</td>
-                            <td>${item.rangoGlobalHTML}</td>
-                        </tr>`;
-                });
-            }
-        };
-
-        procesarAcumuladoPorFiltro(null, 'tabla-general');
-        procesarAcumuladoPorFiltro('survival', 'tabla-survival');
-        procesarAcumuladoPorFiltro('classic', 'tabla-classic');
-        procesarAcumuladoPorFiltro('coop', 'tabla-coop');
-    }
-
-    window.onload = calcularRankings;
+        });
+    });
 </script>
 </body>
 </html>
