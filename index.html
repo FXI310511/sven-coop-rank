@@ -105,8 +105,8 @@
                 <button class="sub-btn survival-btn" onclick="switchSubMap('hplanet', this)">Hplanet</button>
                 <button class="sub-btn survival-btn" onclick="switchSubMap('yabma', this)">Yabma</button>
                 <button class="sub-btn coop-btn" onclick="switchSubMap('abandoned', this)">Abandoned</button>
-                <button class="sub-btn survival-btn" onclick="switchSubMap('sc_tetris1', this)">sc_tetris1</button>
-                <button class="sub-btn coop-btn" onclick="switchSubMap('blackmesaepf', this)">BlackMesaEPF</button>
+                <button class="sub-btn classic-btn" onclick="switchSubMap('sc_tetris1', this)">sc_tetris1</button>
+                <button class="sub-btn survival-btn" onclick="switchSubMap('blackmesaepf', this)">BlackMesaEPF</button>
             </div>
 
             <!-- Intruder -->
@@ -194,9 +194,9 @@
             </div>
 
             <!-- sc_tetris1 -->
-            <div id="sc_tetris1" class="sub-section" data-mode="survival" data-timelimit="90">
+            <div id="sc_tetris1" class="sub-section" data-mode="classic" data-timelimit="99">
                 <img src="sc_tetris1.jpg" alt="Mapa sc_tetris1" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
-                <h3 style="color: #4caf50;">Estadísticas - sc_tetris1 <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Normal]</span></h3>
+                <h3 style="color: #4caf50;">Estadísticas - sc_tetris1 <span style="color: #ff6600; font-size: 0.9rem;">[Clásico - Hard] (Límite: 99m)</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
@@ -211,9 +211,9 @@
             </div>
 
             <!-- BlackMesaEPF -->
-            <div id="blackmesaepf" class="sub-section" data-mode="coop" data-timelimit="120">
+            <div id="blackmesaepf" class="sub-section" data-mode="survival" data-timelimit="120">
                 <img src="blackmesaepf.jpg" alt="Mapa BlackMesaEPF" class="map-preview" onerror="this.src='https://raw.githubusercontent.com/mr-vercetti/docker-svencoop-server/master/.misc/svencoop-logo.jpg'">
-                <h3 style="color: #4caf50;">Estadísticas - BlackMesaEPF <span style="color: #ba68c8; font-size: 0.9rem;">[Co-op - Normal]</span></h3>
+                <h3 style="color: #4caf50;">Estadísticas - BlackMesaEPF <span style="color: #00ccff; font-size: 0.9rem;">[Survival - Normal]</span></h3>
                 <table class="map-table">
                     <thead><tr><th>Pos</th><th>Jugador</th><th>Score</th><th>Time Left</th><th>Muertes</th><th>Eficiencia</th><th>Rango</th></tr></thead>
                     <tbody>
